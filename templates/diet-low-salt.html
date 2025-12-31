@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low-Salt Diet | HridyaCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #fff;
+            --text-muted: #94a3b8;
+            --accent: #22c55e; /* Green for Fresh/Low-Sodium theme */
+        }
+
+        body { 
+            background: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 80px; 
+        }
+
+        /* Hero Section */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, #0f172a 0%, transparent 80%);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Navigation */
+        .nav-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn { 
+            text-decoration: none; 
+            color: var(--text-muted); 
+            font-size: 16px; 
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: var(--text-main); }
+        .back-btn span { font-size: 20px; margin-right: 6px; }
+
+        /* Content Sections */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        p { margin: 0; color: var(--text-muted); font-size: 15px; }
+
+        /* Food List Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .food-item {
+            background: rgba(51, 65, 85, 0.5);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .food-item:hover { transform: translateY(-2px); background: rgba(51, 65, 85, 0.7); }
+        
+        .food-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+        .food-name { font-weight: 600; font-size: 14px; display: block; }
+        .food-detail { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block; }
+
+        /* "Did You Know" Callout */
+        .highlight-box {
+            background: linear-gradient(135deg, #166534, #14532d); /* Green gradient */
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        .highlight-icon { font-size: 24px; }
+        .highlight-text h4 { margin: 0 0 6px 0; font-size: 16px; color: #86efac; }
+        .highlight-text p { color: #dcfce7; font-size: 14px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-header">
+        <a href="/health" class="back-btn"><span>←</span> Back to Health</a>
+    </div>
+
+    <div class="hero-container">
+        <img src="https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?w=800&q=80" class="hero-img" alt="Fresh Vegetables">
+        <div class="hero-overlay">
+            <h1 class="hero-title">Low-Salt Diet</h1>
+        </div>
+    </div>
+
+    <div class="info-card">
+        <p>Sodium acts like a sponge that holds water in your body. This extra water puts pressure on your blood vessel walls, forcing your heart to work harder. Reducing salt is the single most effective dietary change for lowering blood pressure.</p>
+    </div>
+
+    <h3 class="section-title">🥗 Flavor without Salt</h3>
+    <div class="food-grid">
+        <div class="food-item">
+            <span class="food-icon">🍋</span>
+            <span class="food-name">Lemon Juice</span>
+            <span class="food-detail">Brightens flavor instantly</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🧄</span>
+            <span class="food-name">Garlic & Onion</span>
+            <span class="food-detail">Natural savory taste</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥬</span>
+            <span class="food-name">Fresh Herbs</span>
+            <span class="food-detail">Basil, cilantro, mint</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥕</span>
+            <span class="food-name">Raw Veggies</span>
+            <span class="food-detail">Naturally low sodium</span>
+        </div>
+    </div>
+
+    <div class="highlight-box">
+        <div class="highlight-icon">⚠️</div>
+        <div class="highlight-text">
+            <h4>Hidden Sodium</h4>
+            <p>The salt shaker isn't the main culprit. 70% of sodium comes from packaged foods like bread, pizza, cold cuts, and canned soups. Always check the label!</p>
+        </div>
+    </div>
+
+    <h3 class="section-title">🥘 Tasty Swap Idea</h3>
+    <div class="info-card">
+        <strong style="color:white; display:block; margin-bottom:8px;">Homemade Taco Seasoning</strong>
+        <p>Store-bought packets are loaded with salt. Mix chili powder, cumin, paprika, and garlic powder yourself. You get all the zest with zero sodium spike.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile | CardioSense</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg-dark:#0f172a;
+  --bg-light:#f8fafc;
+  --card-dark:#1e293b;
+  --card-light:#ffffff;
+  --text-dark:#f8fafc;
+  --text-light:#0f172a;
+  --muted:#94a3b8;
+  --primary:#f43f5e;
+   --success:#10b981;
+}
+
+body{
+  margin:0;
+  font-family:Inter,sans-serif;
+  background:var(--bg-dark);
+  color:var(--text-dark);
+  padding-bottom:90px;
+  transition:.3s;
+}
+
+.light{
+  background:var(--bg-light);
+  color:var(--text-light);
+}
+
+.header{
+  padding:22px;
+  font-size:26px;
+  font-weight:600;
+}
+
+.card{
+  background:var(--card-dark);
+  margin:14px 16px;
+  padding:16px;
+  border-radius:18px;
+  transition:.3s;
+}
+
+.light .card{
+  background:var(--card-light);
+}
+
+.profile{
+  text-align:center;
+}
+
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:#334155;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+}
+
+.profile h3{
+  margin:12px 0 4px;
+}
+
+.profile p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.list{
+  display:flex;
+  flex-direction:column;
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  font-size:15px;
+}
+
+.item:last-child{border:none}
+
+.switch{
+  width:44px;
+  height:24px;
+  background:#475569;
+  border-radius:20px;
+  position:relative;
+  cursor:pointer;
+}
+
+.switch::after{
+  content:'';
+  width:18px;
+  height:18px;
+  background:#fff;
+  border-radius:50%;
+  position:absolute;
+  top:3px;
+  left:4px;
+  transition:.3s;
+}
+
+.switch.active{
+  background:var(--primary);
+}
+
+.switch.active::after{
+  left:22px;
+}
+
+.logout{
+  background:var(--primary);
+  color:white;
+  text-align:center;
+  padding:14px;
+  border-radius:16px;
+  font-weight:600;
+  margin:20px 16px;
+}
+
+    
+
+
+
+.gender-line{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.edit-gender{
+  cursor:pointer;
+  font-size:14px;
+  opacity:0.7;
+  transition:0.2s;
+}
+
+.edit-gender:hover{
+  opacity:1;
+  transform:scale(1.1);
+}
+
+.gender-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  align-items:flex-end;
+  z-index:2000;
+}
+
+.gender-card{
+  background:var(--card-dark);
+  width:100%;
+  padding:20px;
+  border-radius:18px 18px 0 0;
+}
+
+.gender-card h4{
+  margin:0 0 12px;
+}
+
+.gender-card select{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:#334155;
+  color:white;
+  border:none;
+  margin-bottom:14px;
+}
+
+.gender-card button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  font-weight:600;
+  background:var(--primary);
+  color:white;
+}
+
+.gender-card .cancel{
+  background:none;
+  color:var(--muted);
+  margin-top:10px;
+}
+
+/* ========================================= */
+/* NEW: MEDICAL ID CARD (SOS)                */
+/* ========================================= */
+.medical-id-card {
+    background: linear-gradient(135deg, #ef4444, #b91c1c); /* Emergency Red */
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: white;
+    box-shadow: 0 8px 20px -5px rgba(239, 68, 68, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Pattern decoration */
+.medical-id-card::before {
+    content: '+';
+    position: absolute;
+    right: -20px; top: -20px;
+    font-size: 150px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.1);
+    line-height: 1;
+}
+
+.mid-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; position: relative; z-index: 2; }
+.mid-title { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.mid-edit { font-size: 12px; background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 12px; cursor: pointer; }
+
+.mid-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    position: relative; z-index: 2;
+}
+
+.mid-item { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; }
+.mid-label { font-size: 10px; opacity: 0.8; text-transform: uppercase; display: block; margin-bottom: 2px; }
+.mid-value { font-size: 14px; font-weight: 600; }
+
+/* ========================================= */
+/* NEW: REPORT GENERATOR                     */
+/* ========================================= */
+.report-card {
+    background: #1e293b;
+    border: 1px dashed #475569;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.report-card:active { background: #334155; transform: scale(0.99); }
+
+.report-left { display: flex; align-items: center; gap: 12px; }
+.report-icon { 
+    width: 40px; height: 40px; 
+    background: rgba(16, 185, 129, 0.15); 
+    color: #10b981; 
+    border-radius: 10px; 
+    display: flex; align-items: center; justify-content: center; 
+    font-size: 20px; 
+}
+.report-info h4 { margin: 0; font-size: 15px; color: white; }
+.report-info p { margin: 2px 0 0 0; font-size: 12px; color: #94a3b8; }
+.download-icon { font-size: 20px; color: #94a3b8; }
+
+.bottom-nav {
+        position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
+        background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px);
+        display: flex; justify-content: space-around; align-items: center;
+        border-top: 1px solid rgba(255,255,255,0.08); z-index: 1000;
+        padding-bottom: 2px;
+    }
+    .nav-item { text-decoration: none; color: #64748b; display: flex; flex-direction: column; align-items: center; font-size: 11px; transition: 0.2s; gap: 4px; }
+    .nav-item .icon { font-size: 22px; transition: 0.2s; }
+    .nav-item.active { color: var(--success); }
+    .nav-item.active .icon { transform: scale(1.08) ; text-shadow: 0 4px 12px rgba(16, 185, 129, 0.5); }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="header">Me</div>
+
+<!-- PROFILE -->
+<div class="card profile">
+  <div class="avatar">👤</div>
+  <h3>{{ user.username }}</h3>
+ <p class="gender-line">
+  {{ user.gender or "Gender not set" }}
+  <span class="edit-gender" onclick="openGenderEditor()">✏️</span>
+</p>
+
+</div>
+
+<!-- SETTINGS -->
+<div class="card list">
+  <div class="item" onclick="alert('Language feature coming soon')">
+    <span>🌐 Language</span>
+    <span>›</span>
+  </div>
+
+  <div class="item" onclick="shareApp()">
+    <span>📤 Share with friends</span>
+    <span>›</span>
+  </div>
+
+  <div class="item" onclick="window.location.href='/feedback'">
+    <span>📝 Feedback</span>
+    <span>›</span>
+  </div>
+
+  <div class="item" onclick="window.location.href='/privacy-policy'">
+    <span>🔒 Privacy Policy</span>
+    <span>›</span>
+  </div>
+
+  <div class="item" onclick="location.href='/terms'">
+    <span>📄 Terms & Conditions</span>
+    <span>›</span>
+  </div>
+  <div class="item" onclick="location.href='/report'">
+    <span>❤️ Download Latest Heart Rate Report</span>
+    <span>›</span>
+  </div>
+</div>
+
+<!-- LOGOUT -->
+<form method="POST" action="{{ url_for('logout') }}" style="margin:20px 16px;">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button
+    type="submit"
+    style="
+      width:100%;
+      background:#f43f5e;
+      color:white;
+      padding:14px;
+      border-radius:16px;
+      font-weight:600;
+      border:none;
+      cursor:pointer;
+    "
+  >
+    Logout
+  </button>
+</form>
+
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+    <a href="/" class="nav-item">
+        <span class="icon">🏠</span>
+        <span>Home</span>
+    </a>
+    <a href="/tracker" class="nav-item">
+        <span class="icon">📊</span>
+        <span>Tracker</span>
+    </a>
+    <a href="/health" class="nav-item">
+        <span class="icon">❤️</span>
+        <span>Health</span>
+    </a>
+    <a href="/profile" class="nav-item">
+        <span class="icon">👤</span>
+        <span>Me</span>
+    </a>
+</nav>
+<script>
+  // Highlight active bottom navigation item
+  const currentPath = window.location.pathname;
+
+  document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {
+    const href = item.getAttribute("href");
+
+    if (href === currentPath) {
+      item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
+  });
+</script>
+
+<script>
+function shareApp(){
+  const text = "Check out HridyaCare – Heart Rate App";
+  if(navigator.share){
+    navigator.share({text});
+  }else{
+    alert("Sharing not supported");
+  }
+}
+</script>
+<script>
+function openGenderEditor(){
+  document.getElementById("genderModal").style.display = "flex";
+}
+
+function closeGenderEditor(){
+  document.getElementById("genderModal").style.display = "none";
+}
+</script>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+
+<div id="genderModal" class="gender-modal">
+  <div class="gender-card">
+    <h4>Select Gender</h4>
+
+    <form method="POST" action="{{ url_for('update_profile') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <select name="gender" required>
+        <option value="Male" {{ 'selected' if user.gender == 'Male' else '' }}>Male</option>
+        <option value="Female" {{ 'selected' if user.gender == 'Female' else '' }}>Female</option>
+        <option value="Other" {{ 'selected' if user.gender == 'Other' else '' }}>Other</option>
+        <option value="NA" {{ 'selected' if user.gender == 'NA' else '' }}>Prefer not to say</option>
+      </select>
+
+      <button type="submit" onclick="closeGenderEditor()">Save</button>
+
+      <button type="button" class="cancel" onclick="closeGenderEditor()">Cancel</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

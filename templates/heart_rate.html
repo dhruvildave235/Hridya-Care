@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HridyaCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<div class="main-app">
+
+    <div class="app-header">
+        <div class="app-logo">HridyaCare</div>
+    </div>                                                                                                                                                                                                        
+
+    <div id="step-1" class="step-container">
+        <button type="button" class="back-btn" id="btn-dashboard">← Back to Dashboard</button>
+
+        <h2>Activity Check</h2>
+        <p>Have you exercised or exerted yourself in the last 15 minutes?</p>
+
+        <div style="margin-top:40px;">
+            <button id="btn-activity-yes" class="btn btn-outline"
+                style="margin-bottom:15px; background:transparent; border:2px solid #334155;">
+                Yes, I was active
+            </button>
+            <button id="btn-activity-no" class="btn">No, I am resting</button>
+        </div>
+    </div>
+
+    <div id="step-2" class="step-container">
+        <button id="btn-back-to-activity" class="back-btn">← Back</button>
+
+        <h2>Location</h2>
+        <p>Enter your city to check real-time air quality impact.</p>
+
+        <input type="text" id="input-city" placeholder="e.g. London, New York" autocomplete="off">
+        <ul id="city-suggestions" class="suggestions-list"></ul>
+
+        <button id="btn-city-next" class="btn" style="margin-top:20px;">Next</button>
+    </div>
+
+    <div id="step-3" class="step-container">
+        <button id="btn-back-to-location" class="back-btn">← Back</button>
+
+        <h2>Calibration</h2>
+        <p>Enter your age to establish a baseline heart rate target.</p>
+
+        <input type="number" id="input-age" placeholder="e.g. 25">
+        <button id="btn-age-next" class="btn" style="margin-top:20px;">
+            Continue to Sensor
+        </button>
+    </div>
+
+    <div id="step-monitor" class="step-container">
+        <div class="monitor-ui">
+            <button id="btn-back-to-age" class="back-btn">← Back</button>
+
+            <div class="status-bar">
+                <span id="live-badge">LIVE</span>
+                <span id="message-box">Ready</span>
+            </div>
+
+            <div id="cam-container">
+                <video id="video" autoplay muted playsinline></video>
+
+                <svg class="progress-ring">
+                    <circle class="ring-bg" cx="140" cy="140" r="120"></circle>
+                    <circle id="ring-fill" class="ring-fill" cx="140" cy="140" r="120"></circle>
+                </svg>
+
+                <div id="overlay-text" class="overlay-center">
+                    <div id="overlay-label">HOLD</div>
+                    <div id="countdown">GO</div>
+                </div>
+            </div>
+
+            <div class="graph-container">
+                <canvas id="graph"></canvas>
+            </div>
+
+            <div class="bpm-box">
+                <div id="pre-start-text" class="pre-start-text">
+                    Please click on <b>Start Measurement</b>
+                </div>
+
+                <div id="measuring-ui" style="display:none;">
+                    <div id="measure-percent" class="measure-percent">0%</div>
+                    <div class="measure-lines">
+                        <div id="line-1"></div>
+                        <div id="line-2"></div>
+                        <div id="line-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="btn-start-measure" class="btn" style="margin-top:10px;">
+                START MEASUREMENT
+            </button>
+        </div>
+    </div>
+
+    <div id="step-5" class="step-container">
+        <h2 style="text-align:center;">Analysis Report</h2>
+
+        <button id="btn-telehealth"
+        class="btn btn-outline"
+        style="display:none;">
+   🧑‍⚕️ Consult Health Coach
+</button>
+
+        <p id="report-meta" style="text-align:center; font-size:0.9rem; margin-bottom:30px;"></p>
+
+        <div id="grid-container">
+            <div class="stat-box">
+                <div class="stat-val" id="res-bpm">--</div>
+                <div class="stat-label">HEART RATE</div>
+            </div>
+
+          <div class="stat-box" id="aqi-box">
+    <div class="stat-val" id="res-aqi">--</div>
+    <div class="stat-label" id="res-aqi-label">AQI</div>
+</div>
+
+        </div>
+
+        <div id="impact-container" class="stat-box"
+             style="display:flex; flex-direction:column; margin-bottom:20px;">
+            <div class="stat-label">POLLUTION IMPACT</div>
+            <div class="impact-badge" id="res-impact-category">Calculating...</div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">
+                Contribution: <span id="res-impact-val">0%</span>
+            </div>
+        </div>
+
+        <p id="res-msg"
+           style="background:rgba(255,255,255,0.05);
+                  padding:15px;
+                  border-radius:8px;
+                  font-size:0.9rem;">
+        </p>
+
+        <div id="personal-baseline-box"
+             style="display:none;
+                    margin-top:18px;
+                    background:rgba(255,255,255,0.06);
+                    padding:14px;
+                    border-radius:12px;
+                    font-size:0.88rem;
+                    border-left:4px solid #22c55e;">
+        </div>
+
+        <div id="hr-explanation"
+             style="display:none;
+                    margin-top:18px;
+                    background:rgba(255,255,255,0.05);
+                    padding:15px;
+                    border-radius:10px;
+                    border-left:4px solid #f59e0b;">
+
+            <div style="font-size:0.9rem; font-weight:600; color:#fbbf24; margin-bottom:6px;">
+                Why is my heart rate like this?
+            </div>
+
+            <p id="hr-explanation-text"
+               style="font-size:0.85rem; line-height:1.5; color:#e5e7eb;"></p>
+
+            <div id="hr-confidence"
+                 style="margin-top:6px; font-size:0.75rem; color:#94a3b8;"></div>
+
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">
+                This insight is based on environmental and situational factors and should be interpreted in a wellness context.
+            </div>
+        </div>
+
+        <button id="btn-view-report" class="btn" style="margin-top:20px; width:100%;">
+            📄 View Health Report
+        </button>
+
+        <button id="btn-restart"
+                class="btn btn-outline"
+                style="margin-top:15px; background:transparent; border:2px solid #334155;">
+            Start New Scan
+        </button>
+    </div>
+</div>
+<script>
+document.getElementById("btn-telehealth")?.addEventListener("click", () => {
+    window.location.href = "/telehealth";
+});
+</script>
+
+<script type="module" src="{{ url_for('static', filename='js/app.js') }}?v={{ config['SECRET_KEY'] }}"></script>
+
+
+</body>
+</html>

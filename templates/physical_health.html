@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Physical Health Assessment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #f43f5e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --accent: #3b82f6; /* Added for info buttons */
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            padding: 16px;
+            overflow-x: hidden;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+        }
+
+        h2 { text-align: center; margin-bottom: 6px; }
+        .subtitle { text-align: center; font-size: 14px; color: var(--text-muted); margin-bottom: 18px; }
+
+        label { display: block; margin-top: 14px; font-size: 14px; color: var(--text-muted); }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 10px;
+            border: none;
+            background: #020617;
+            color: var(--text-main);
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: var(--primary);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button.secondary {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            margin-top: 12px;
+            font-weight: 400;
+        }
+
+        /* === METRIC UI IMPROVEMENTS === */
+        .result {
+            display: none;
+            margin-top: 22px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .metric-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+
+        .metric-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .metric-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #e2e8f0;
+        }
+
+        .metric-values {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .metric-val {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .good { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .warn { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .bad { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        /* === INFO BUTTON STYLE === */
+        .info-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            font-family: serif; /* For the 'i' style */
+            cursor: pointer;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.2s;
+        }
+
+        .info-btn:hover {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        /* === MODAL FOR INFO === */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 350px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            padding: 0;
+            margin: 0;
+            width: auto;
+            cursor: pointer;
+        }
+
+        .note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 14px;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>🧍 Physical Health Check</h2>
+    <div class="subtitle">
+        Enter basic details to personalize your health analysis
+    </div>
+
+    <label>Age (years)</label>
+    <input type="number" id="age" placeholder="5 – 100" min="5" max="100">
+
+    <label>Weight (kg)</label>
+    <input type="number" id="weight" placeholder="20 – 200" min="20" max="200">
+
+    <label>Height (cm)</label>
+    <input type="number" id="height" placeholder="120 – 220" min="120" max="220">
+
+    <button type="button" onclick="calculateHealth()">Calculate</button>
+    
+    <div id="completedMsg" style="display:none; margin-top:16px; text-align:center; color:#10b981; font-weight:600; font-size:15px;">
+        Analysis Completed ✅
+    </div>
+
+    <div class="result" id="resultBox">
+        
+        <div class="metric-card">
+            <span class="metric-name">WASI</span>
+            <div class="metric-values">
+                <span id="wasiVal" class="metric-val"></span>
+                <span id="wasiBadge" class="badge"></span>
+                <div class="info-btn" onclick="openInfo('wasi')">i</div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <span class="metric-name">MLS</span>
+            <div class="metric-values">
+                <span id="mlsVal" class="metric-val"></span>
+                <span id="mlsBadge" class="badge"></span>
+                <div class="info-btn" onclick="openInfo('mls')">i</div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <span class="metric-name">BMI</span>
+            <div class="metric-values">
+                <span id="bmiVal" class="metric-val"></span>
+                <span id="bmiBadge" class="badge"></span>
+                <div class="info-btn" onclick="openInfo('bmi')">i</div>
+            </div>
+        </div>
+
+        <button class="secondary" onclick="continueNext()">
+            Continue to Dashboard
+        </button>
+
+        <div class="note">
+            Scores are wellness indicators, not medical diagnoses.
+        </div>
+    </div>
+
+    <button id="backBtn" class="secondary" onclick="goBack()">
+        ⬅ Back
+    </button>
+</div>
+
+<div class="modal-overlay" id="infoModal" onclick="closeInfo(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <span id="modalTitle">Info</span>
+            <button class="modal-close" onclick="closeInfoDirect()">×</button>
+        </div>
+        <div class="modal-body" id="modalText"></div>
+    </div>
+</div>
+
+<script>
+// Data for the modals (Previously displayed below button)
+const infoData = {
+    wasi: {
+        title: "Weight-for-Age Stress Indicator (WASI)",
+        text: "A metric that reflects whether a person’s body weight is unusually high or low for their age, indicating potential physiological or health stress."
+    },
+    mls: {
+        title: "Metabolic Load Score (MLS)",
+        text: "A composite score that estimates overall metabolic strain on the body by combining factors such as body weight and age."
+    },
+    bmi: {
+        title: "Body Mass Index (BMI)",
+        text: "A simple index of weight-for-height that is commonly used to classify underweight, overweight, and obesity in adults."
+    }
+};
+
+function openInfo(type) {
+    document.getElementById('modalTitle').innerText = infoData[type].title;
+    document.getElementById('modalText').innerText = infoData[type].text;
+    document.getElementById('infoModal').style.display = "flex";
+}
+
+function closeInfo(e) {
+    if (e.target.id === 'infoModal') {
+        document.getElementById('infoModal').style.display = "none";
+    }
+}
+
+function closeInfoDirect() {
+    document.getElementById('infoModal').style.display = "none";
+}
+
+function setBadge(type, value, ranges) {
+    const badge = document.getElementById(type + "Badge");
+    
+    // Ensure value is a number for comparison
+    const numVal = parseFloat(value);
+
+    for (let r of ranges) {
+        if (numVal <= r.limit) {
+            badge.textContent = r.label;
+            badge.className = "badge " + r.cls;
+            break;
+        }
+    }
+}
+</script>
+
+<script>
+async function calculateHealth() {
+    const age = Number(document.getElementById("age").value);
+    const height = Number(document.getElementById("height").value);
+    const weight = Number(document.getElementById("weight").value);
+
+    if (age < 5 || age > 100 || weight < 20 || weight > 200 || height < 120 || height > 220) {
+        alert("Please enter valid age, height, and weight values.");
+        return;
+    }
+
+    // --- API Call for WASI / MLS (Unchanged Logic) ---
+    const res = await fetch("/api/physical-health", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ age, height, weight })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+        alert(data.error || "Calculation failed");
+        return;
+    }
+
+    // --- Calculate BMI (Derived locally for display) ---
+    const heightM = height / 100;
+    const bmi = (weight / (heightM * heightM)).toFixed(1);
+
+    const wasi = data.wasi;
+    const mls = data.mls;
+
+    // Display Values
+    document.getElementById("wasiVal").innerText = wasi;
+    document.getElementById("mlsVal").innerText  = mls;
+    document.getElementById("bmiVal").innerText  = bmi;
+
+    // WASI Logic
+    setBadge("wasi", wasi, [
+        { limit: 70, label: "Low", cls: "bad" },
+        { limit: 85, label: "Moderate", cls: "warn" },
+        { limit: Infinity, label: "Good", cls: "good" }
+    ]);
+
+    // MLS Logic
+    setBadge("mls", mls, [
+        { limit: 100, label: "Low", cls: "good" },
+        { limit: 120, label: "Moderate", cls: "warn" },
+        { limit: Infinity, label: "High", cls: "bad" }
+    ]);
+
+    // BMI Logic (Standard WHO)
+    setBadge("bmi", bmi, [
+        { limit: 18.5, label: "Under", cls: "warn" },
+        { limit: 24.9, label: "Normal", cls: "good" },
+        { limit: 29.9, label: "Over", cls: "warn" },
+        { limit: Infinity, label: "High", cls: "bad" }
+    ]);
+
+    sessionStorage.setItem("PHYSICAL_HEALTH", JSON.stringify({ age, weight, wasi, mls, bmi }));
+
+    // UI State Changes
+    document.getElementById("resultBox").style.display = "block";
+    document.getElementById("completedMsg").style.display = "block";
+    document.getElementById("backBtn").style.display = "none";
+}
+
+function continueNext() {
+    window.location.href = "/";
+}
+
+function goBack() {
+    window.history.back();
+}
+</script>
+
+
+</body>
+</html>

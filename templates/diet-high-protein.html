@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Protein Diet | HridyaCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #fff;
+            --text-muted: #94a3b8;
+            --accent: #f59e0b; /* Amber/Orange for Energy/Protein theme */
+        }
+
+        body { 
+            background: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 80px; 
+        }
+
+        /* Hero Section */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, #0f172a 0%, transparent 80%);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Navigation */
+        .nav-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn { 
+            text-decoration: none; 
+            color: var(--text-muted); 
+            font-size: 16px; 
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: var(--text-main); }
+        .back-btn span { font-size: 20px; margin-right: 6px; }
+
+        /* Content Sections */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        p { margin: 0; color: var(--text-muted); font-size: 15px; }
+
+        /* Category Header */
+        .category-header {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .category-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Food List Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .food-item {
+            background: rgba(51, 65, 85, 0.5);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .food-item:hover { transform: translateY(-2px); background: rgba(51, 65, 85, 0.7); }
+        
+        .food-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+        .food-name { font-weight: 600; font-size: 14px; display: block; }
+        .food-detail { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block; }
+
+        /* "Did You Know" Callout */
+        .highlight-box {
+            background: linear-gradient(135deg, #b45309, #78350f); 
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        .highlight-icon { font-size: 24px; }
+        .highlight-text h4 { margin: 0 0 6px 0; font-size: 16px; color: #fcd34d; }
+        .highlight-text p { color: #fef3c7; font-size: 14px; }
+
+        /* Badge Styles */
+        .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; }
+        .veg { background: #166534; color: #86efac; }
+        .non-veg { background: #991b1b; color: #fca5a5; }
+        .vegan { background: #155e75; color: #67e8f9; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-header">
+        <a href="/health" class="back-btn"><span>←</span> Back to Health</a>
+    </div>
+
+    <div class="hero-container">
+        <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&q=80" class="hero-img" alt="Chicken Breast Meal">
+        <div class="hero-overlay">
+            <h1 class="hero-title">High Protein Diet</h1>
+        </div>
+    </div>
+
+    <div class="info-card">
+        <p>Protein is essential for repairing tissues, maintaining muscle mass, and keeping your metabolism healthy. Here are the best sources categorized by diet preference.</p>
+    </div>
+
+    <div class="category-header">🍖 Non-Vegetarian</div>
+    <div class="food-grid">
+        <div class="food-item">
+            <span class="food-icon">🐔</span>
+            <span class="food-name">Chicken Breast</span>
+            <span class="food-detail">31g Protein / 100g</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🐟</span>
+            <span class="food-name">Salmon</span>
+            <span class="food-detail">20g Protein + Omega-3</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥩</span>
+            <span class="food-name">Lean Beef</span>
+            <span class="food-detail">26g Protein / 100g</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥚</span>
+            <span class="food-name">Eggs</span>
+            <span class="food-detail">6g Protein per egg</span>
+        </div>
+    </div>
+
+    <div class="category-header">🥛 Vegetarian (Dairy)</div>
+    <div class="food-grid">
+        <div class="food-item">
+            <span class="food-icon">🥣</span>
+            <span class="food-name">Greek Yogurt</span>
+            <span class="food-detail">10g Protein / 100g</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🧀</span>
+            <span class="food-name">Paneer / Cottage Cheese</span>
+            <span class="food-detail">18g Protein / 100g</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥛</span>
+            <span class="food-name">Skim Milk</span>
+            <span class="food-detail">3.4g Protein / 100ml</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥤</span>
+            <span class="food-name">Whey Protein</span>
+            <span class="food-detail">24g Protein per scoop</span>
+        </div>
+    </div>
+
+    <div class="category-header">🌱 Vegan (Plant-Based)</div>
+    <div class="food-grid">
+        <div class="food-item">
+            <span class="food-icon">🍲</span>
+            <span class="food-name">Lentils (Dal)</span>
+            <span class="food-detail">9g Protein / 100g (cooked)</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🧊</span>
+            <span class="food-name">Tofu</span>
+            <span class="food-detail">8g Protein / 100g</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🫘</span>
+            <span class="food-name">Chickpeas</span>
+            <span class="food-detail">19g Protein / 100g</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥜</span>
+            <span class="food-name">Almonds</span>
+            <span class="food-detail">6g Protein per handful</span>
+        </div>
+    </div>
+
+    <div class="highlight-box">
+        <div class="highlight-icon">⚡</div>
+        <div class="highlight-text">
+            <h4>Pro Tip</h4>
+            <p><strong>For Vegans/Vegetarians:</strong> Combine rice with beans or dal. This creates a "complete protein" that rivals meat by providing all essential amino acids.</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stress Level Assessment | CardioSense</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    /* Deep, rich dark theme background */
+    --bg-main: #0f172a;
+    --bg-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+    
+    /* Glassmorphism Card Colors */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+    /* Brand Colors */
+    --primary: #ff2d55;
+    --primary-hover: #ff4769;
+    --primary-glow: rgba(255, 45, 85, 0.4);
+
+    /* Text Colors */
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --outline: rgba(255, 255, 255, 0.2);
+
+    /* Severity Colors */
+    --low: #4ade80;
+    --moderate: #fbbf24;
+    --high: #f87171;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Outfit", "Segoe UI", system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg-main);
+    background-image: var(--bg-gradient);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* Background decorative blur */
+body::before {
+    content: '';
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: var(--primary);
+    opacity: 0.07;
+    filter: blur(80px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 40px 20px 100px;
+}
+
+h1 {
+    margin: 0 0 8px 0;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.progress-text {
+    text-align: center;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    background: rgba(255, 45, 85, 0.1);
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ================= CARD ================= */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+}
+
+/* ================= QUESTIONS ================= */
+.question p {
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* ================= OPTIONS ================= */
+.option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid transparent;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+}
+
+/* Styling the option when the radio inside is checked */
+.option:has(input:checked) {
+    background: rgba(255, 45, 85, 0.15);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 45, 85, 0.15);
+}
+
+.option input {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--outline);
+    position: relative;
+    background: transparent;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.option input:checked {
+    border-color: var(--primary);
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.option input:checked::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.option span {
+    font-size: 16px;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.option:has(input:checked) span {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* ================= BUTTONS ================= */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), #d91b42);
+    color: white;
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 30px;
+    box-shadow: 0 4px 20px rgba(255, 45, 85, 0.4);
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 45, 85, 0.6);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-muted);
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--outline);
+    font-size: 15px;
+    width: 100%;
+    margin-top: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+
+/* ================= RESULT ================= */
+.result {
+    display: none;
+    margin-top: 50px;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.score {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    margin: 10px 0;
+    text-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.low { color: var(--low); text-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
+.moderate { color: var(--moderate); text-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+.high { color: var(--high); text-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+
+/* Sub-score Highlight Box */
+.highlight {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 24px;
+}
+
+/* Canvas styling */
+#stressRadar {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 45, 85, 0.2));
+    /* ensure it has a size */
+    min-height: 320px;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 1px;
+    opacity: 0.6;
+}
+
+/* ===== Stress Breakdown UI ===== */
+.breakdown-card {
+    background: #131c2e;
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 30px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.breakdown-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 12px;
+}
+
+.metric {
+    margin-bottom: 18px;
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+}
+
+.metric-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.metric-fill {
+    height: 100%;
+    border-radius: 999px;
+    width: 0%; 
+    transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 10px currentColor;
+    position: relative;
+}
+
+/* Shimmer effect */
+.metric-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+}
+
+#reductionInfo {
+    background: rgba(15, 23, 42, 0.6);
+    font-size: 15px;
+    line-height: 1.6;
+    color: #e2e8f0;
+    border-left: 4px solid var(--primary);
+}
+
+/* ===== Tooltip ===== */
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    cursor: help;
+    margin-left: 8px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: background 0.2s;
+}
+
+.info-icon:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: #1e293b;
+    color: #f1f5f9;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    width: 260px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    z-index: 100;
+    text-align: left;
+    font-weight: 400;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1e293b transparent transparent transparent;
+}
+
+.info-icon:hover .tooltip,
+.info-icon:active .tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) scale(1);
+}
+
+h2 {
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Stress Level Assessment</h1>
+    <p class="subtitle">Answer based on how you felt during the <b>last month</b></p>
+    <div class="progress-text" id="progressText">Question 1 of 10</div>
+
+    <form id="stressForm">
+
+        <script>
+        const questions = [
+            "been upset because of something that happened unexpectedly?",
+            "felt that you were unable to control important things in your life?",
+            "felt nervous and stressed?",
+            "felt confident about your ability to handle your personal problems?",
+            "felt that things were going your way?",
+            "found that you could NOT cope with all the things you had to do?",
+            "been able to control irritations in your life?",
+            "felt that you were on top of things?",
+            "been angered because of things outside your control?",
+            "felt difficulties piling up so high that you could not overcome them?"
+        ];
+
+        questions.forEach((q, i) => {
+            document.write(`
+            <div class="card question">
+                <p>${i + 1}. In the last month, how often have you ${q}</p>
+                ${["Never","Almost Never","Sometimes","Fairly Often","Very Often"]
+                .map((o,v)=>`
+                <label class="option">
+                    <input type="radio" name="q${i}" value="${v}" required>
+                    <span>${o}</span>
+                </label>`).join("")}
+            </div>
+            `);
+        });
+        </script>
+
+        <button class="btn-primary" type="submit">
+            Calculate Stress Score
+        </button>
+    </form>
+
+    <div class="card result" id="resultBox">
+        <p id="stressLevel" style="font-weight:700; font-size:18px; margin-bottom:10px;"></p>
+        
+        <canvas id="stressRadar" style="margin:20px auto; display:block;"></canvas>
+        
+        <h2>
+          Your Stress Score
+          <span class="info-icon">ⓘ
+            <span class="tooltip">
+              <b style="color:var(--primary)">What this score means</b><br>
+              This score reflects your overall perceived stress during the last month (PSS-10 scale).<br><br>
+
+              <b style="color:var(--primary)">Score ranges</b><br>
+              <span style="color:var(--low)">●</span> 0–13: Low stress<br>
+              <span style="color:var(--moderate)">●</span> 14–26: Moderate stress<br>
+              <span style="color:var(--high)">●</span> 27–40: High stress<br><br>
+
+              <b style="color:var(--primary)">What you can do</b><br>
+              Monitor trends, manage daily stressors, and seek support if high stress persists.
+            </span>
+          </span>
+        </h2>
+        <div class="score" id="scoreValue"></div>
+        <p id="stressLevelText" style="font-size:18px; margin-top:0px; font-weight:600;"></p>
+        <p style="font-size:14px;color:var(--text-muted); margin-top:-5px;">out of 40</p>
+
+        <div class="highlight" id="subScoresBox" style="text-align:left; border:none; padding:0;"></div>
+
+        <div class="highlight" id="reductionInfo"></div>
+  <button class="btn-outline" onclick="startNewAssessment()">
+            Start New Assessment
+        </button>
+        <button class="btn-primary" onclick="viewMentalHealthReport()">
+            Back to Dashboard
+        </button>
+
+      
+
+    </div>
+
+    <div class="footer">
+        PSS-10 | HridyaCare
+    </div>
+
+</div>
+
+<script>
+/* ===== Stress Sub-score Calculator ===== */
+function calculateSubScores() {
+    let scores = [];
+
+    for (let i = 0; i < 10; i++) {
+        const v = +document.querySelector(`input[name="q${i}"]:checked`).value;
+        // Reverse scoring for PSS positive items
+        scores[i] = [3,4,6,7].includes(i) ? (4 - v) : v;
+    }
+
+    return {
+        emotional: scores[0] + scores[2] + scores[8],     
+        control: scores[1] + scores[5] + scores[9],       
+        resilience: scores[3] + scores[4] + scores[6] + scores[7],
+        cognitive: scores[5] + scores[9],
+        anger: scores[0] + scores[8]
+    };
+}
+
+const METRIC_INFO = {
+    "Emotional Stress": {
+        meaning: "Reflects emotional reactions such as anxiety, feeling overwhelmed, or emotional exhaustion.",
+        improve: "Practice mindfulness, journaling, deep breathing, and ensure adequate rest."
+    },
+    "Loss of Control": {
+        meaning: "Indicates how much control you feel over important aspects of your life.",
+        improve: "Break tasks into smaller steps, prioritize daily goals, and set realistic boundaries."
+    },
+    "Resilience Level": {
+        meaning: "Measures your ability to cope with stress and bounce back from challenges.",
+        improve: "Maintain social connections, regular physical activity, and consistent sleep routines."
+    },
+    "Cognitive Load": {
+        meaning: "Represents mental overload, difficulty concentrating, or too many demands at once.",
+        improve: "Reduce multitasking, schedule focused work blocks, and take regular mental breaks."
+    },
+    "Anger Reactivity": {
+        meaning: "Shows how often stress triggers frustration, irritation, or anger.",
+        improve: "Pause before reacting, practice slow breathing, and identify stress triggers early."
+    }
+};
+
+function renderMetric(label, value, max) {
+    const pct = value / max;
+    let color, severity;
+
+    if (pct > 0.7) {
+        color = "#f87171";      // high (red)
+        severity = "High";
+    } else if (pct > 0.4) {
+        color = "#fbbf24";      // moderate (amber)
+        severity = "Moderate";
+    } else {
+        color = "#4ade80";      // low (green)
+        severity = "Low";
+    }
+
+    return `
+    <div class="metric">
+        <div class="metric-header">
+           <span style="display:flex; align-items:center;">
+              ${label}
+              <span class="info-icon">ⓘ
+                <span class="tooltip">
+                  <b style="color:var(--primary)">What it means</b><br>
+                  ${METRIC_INFO[label].meaning}<br><br>
+                  <b style="color:var(--primary)">How to improve</b><br>
+                  ${METRIC_INFO[label].improve}
+                </span>
+              </span>
+            </span>
+
+            <span style="display:flex;gap:10px;align-items:center;">
+                <span style="color:${color}; font-weight:700;">${value}/${max}</span>
+                <span style="
+                    font-size:11px;
+                    padding:2px 8px;
+                    border-radius:999px;
+                    background:${color}15;
+                    border: 1px solid ${color}40;
+                    color:${color};
+                    font-weight:600;
+                    text-transform:uppercase;
+                ">
+                    ${severity}
+                </span>
+            </span>
+        </div>
+
+        <div class="metric-bar">
+            <div class="metric-fill" 
+                 data-width="${pct * 100}" 
+                 style="background:${color}; box-shadow: 0 0 12px ${color};">
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+function animateBars() {
+    requestAnimationFrame(() => {
+        document.querySelectorAll(".metric-fill").forEach(bar => {
+            bar.style.width = bar.dataset.width + "%";
+        });
+    });
+}
+</script>
+
+<script>
+/* ===== Radar Chart Drawing ===== */
+function drawRadarChart(data) {
+    const canvas = document.getElementById("stressRadar");
+    const ctx = canvas.getContext("2d");
+
+    // Handle High DPI displays
+    const dpr = window.devicePixelRatio || 1;
+    // We assume the container is visible now, so these dimensions are valid
+    let rect = canvas.getBoundingClientRect();
+    
+    // Fallback if measurement failed (safeguard)
+    if(rect.width === 0) {
+        rect = { width: 320, height: 320 }; 
+    }
+
+    canvas.width = rect.width * dpr;
+    canvas.height = 320 * dpr; // Fix height for better consistency
+    ctx.scale(dpr, dpr);
+    
+    // Set style width/height to match scale
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = '320px';
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const cx = rect.width / 2;
+    const cy = 160; // Half of fixed height
+    const radius = 100; 
+    const labels = ["Emotional", "Control", "Resilience", "Cognitive", "Anger"];
+    const values = [
+        data.emotional,
+        data.control,
+        data.resilience,
+        data.cognitive,
+        data.anger
+    ];
+
+    const angleStep = (2 * Math.PI) / labels.length;
+
+    /* Draw grid */
+    ctx.strokeStyle = "rgba(255,255,255,0.1)";
+    ctx.lineWidth = 1;
+    for (let i = 1; i <= 5; i++) {
+        ctx.beginPath();
+        for (let j = 0; j < labels.length; j++) {
+            const angle = j * angleStep - Math.PI / 2;
+            const r = (radius / 5) * i;
+            const x = cx + r * Math.cos(angle);
+            const y = cy + r * Math.sin(angle);
+            j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+    }
+
+    /* Draw axes + labels */
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "600 11px Outfit";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    labels.forEach((label, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const x = cx + (radius + 25) * Math.cos(angle);
+        const y = cy + (radius + 25) * Math.sin(angle);
+        ctx.fillText(label, x, y);
+    });
+
+    /* Draw data polygon */
+    ctx.beginPath();
+    values.forEach((val, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const maxValues = [12, 12, 16, 8, 8];
+        const r = (val / maxValues[i]) * radius;
+
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.closePath();
+
+    ctx.fillStyle = "rgba(255, 45, 85, 0.25)";
+    ctx.strokeStyle = "#ff2d55";
+    ctx.lineWidth = 3;
+    ctx.lineJoin = "round";
+    ctx.fill();
+    ctx.stroke();
+    
+    // Add glow points at vertices
+    values.forEach((val, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const maxValues = [12, 12, 16, 8, 8];
+        const r = (val / maxValues[i]) * radius;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+    });
+}
+</script>
+
+<script>
+/* Progress update */
+document.addEventListener("change", () => {
+    const answered = new Set(
+        [...document.querySelectorAll("input[type=radio]:checked")]
+        .map(i => i.name)
+    ).size;
+    document.getElementById("progressText").innerText =
+        `Question ${Math.min(answered + 1, 10)} / 10`;
+});
+
+/* Scoring */
+document.getElementById("stressForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    let total = 0;
+    for (let i = 0; i < 10; i++) {
+        const v = +document.querySelector(`input[name="q${i}"]:checked`).value;
+        total += [3,4,6,7].includes(i) ? (4 - v) : v;
+    }
+
+    const subs = calculateSubScores();
+    console.log("TOTAL:", total);
+    console.log("SUB SCORES:", subs);
+
+    let levelText, levelClass;
+    if (total <= 13) { levelText = "Low Stress"; levelClass = "low"; }
+    else if (total <= 26) { levelText = "Moderate Stress"; levelClass = "moderate"; }
+    else { levelText = "High Stress"; levelClass = "high"; }
+
+    // Update DOM texts
+    document.getElementById("scoreValue").innerText = `${total}`;
+    document.getElementById("stressLevelText").innerText = levelText;
+    document.getElementById("stressLevelText").className = levelClass;
+    document.getElementById("scoreValue").className = "score " + levelClass;
+    document.getElementById("stressLevel").innerText = levelText.toUpperCase();
+    document.getElementById("stressLevel").className = levelClass;
+
+    // Insight Logic
+    let insight_present = "";
+    let insight_past = "";
+
+    if (subs.emotional >= 7 && subs.anger >= 5) {
+        insight_present = "High emotional reactivity detected. Emotional regulation and mindfulness are strongly recommended.";
+        insight_past = "High emotional reactivity was detected. Emotional regulation and mindfulness were strongly recommended.";
+    } else if (subs.cognitive >= 5 && subs.control >= 7) {
+        insight_present = "Cognitive overload detected. You may be at risk of burnout.";
+        insight_past = "Cognitive overload was detected. You may have been at risk of burnout.";
+    } else if (subs.resilience <= 5 && total >= 18) {
+        insight_present = "Low resilience with elevated stress detected. Early intervention is advised.";
+        insight_past = "Low resilience with elevated stress was detected. Early intervention was advised.";
+    } else if (total <= 13) {
+        insight_present = "Stress levels appear well managed. Maintain current coping strategies.";
+        insight_past = "Stress levels appeared well managed. Maintaining current coping strategies was advised.";
+    } else {
+        insight_present = "Moderate stress detected. Lifestyle and workload adjustments may help.";
+        insight_past = "Moderate stress was detected. Lifestyle and workload adjustments were advised.";
+    }
+
+    // Render Metrics
+    document.getElementById("subScoresBox").innerHTML = `
+    <div class="breakdown-card">
+      <div class="breakdown-title">
+         <span>📊 Stress Breakdown</span>
+      </div>
+      ${renderMetric("Emotional Stress", subs.emotional, 12)}
+      ${renderMetric("Loss of Control", subs.control, 12)}
+      ${renderMetric("Resilience Level", subs.resilience, 16)}
+      ${renderMetric("Cognitive Load", subs.cognitive, 8)}
+      ${renderMetric("Anger Reactivity", subs.anger, 8)}
+    </div>
+    `;
+    
+    document.getElementById("reductionInfo").innerText = insight_present;
+
+    // IMPORTANT: Show the result box FIRST, so the canvas has dimensions
+    document.getElementById("resultBox").style.display = "block";
+    
+    // NOW draw the chart (since the container is visible, width is not 0)
+    drawRadarChart(subs);
+    animateBars();
+
+    // Scroll to view
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+
+    // Save Data
+    fetch("/api/stress/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            total: total,
+            level: levelText,
+            emotional: subs.emotional,
+            control: subs.control,
+            resilience: subs.resilience,
+            cognitive: subs.cognitive,
+            anger: subs.anger,
+            insight_present: insight_present,
+            insight_past: insight_past
+        })
+    })
+    .then(res => res.json())
+    .then(() => console.log("✅ Stress data saved"))
+    .catch(err => console.error("❌ Save failed", err));
+
+    localStorage.setItem("STRESS_SCORE", total);
+    localStorage.setItem("STRESS_LEVEL", levelText);
+});
+
+/* View Mental Health Report */
+function viewMentalHealthReport() {
+    window.location.href = "/";
+}
+
+/* Start New Assessment */
+function startNewAssessment() {
+    document.getElementById("stressForm").reset();
+    document.getElementById("resultBox").style.display = "none";
+    document.getElementById("progressText").innerText = "Question 1 of 10";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

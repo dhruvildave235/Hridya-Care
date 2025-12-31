@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard | HridyaCare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+<style>
+/* --- CORE VARIABLES & RESET --- */
+:root {
+  --bg-dark: #0f172a;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+  --primary: #f43f5e; /* Rose */
+  --accent-blue: #38bdf8;
+  --success: #10b981;
+  --danger: #ef4444;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --card-bg: rgba(30, 41, 59, 0.6);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--bg-dark);
+  background-image: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* --- LAYOUT CONTAINER --- */
+.dashboard-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* --- HEADER SECTION --- */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.dashboard-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #fff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- NEW INSTRUCTION BOX (The Requested Box) --- */
+.admin-protocol-card {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(15, 23, 42, 0.4));
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.protocol-icon {
+  font-size: 24px;
+  background: rgba(56, 189, 248, 0.2);
+  padding: 10px;
+  border-radius: 12px;
+  color: var(--accent-blue);
+}
+
+.protocol-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.protocol-content p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+/* --- GRID LAYOUT FOR COACH CARDS --- */
+.coach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+/* --- ADMIN CARD STYLING --- */
+.admin-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.coach-info {
+  margin-bottom: 16px;
+}
+
+.coach-info p {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.coach-info strong {
+  color: white;
+  display: block;
+  font-size: 16px;
+}
+
+/* --- ACTIONS --- */
+.admin-actions {
+  margin-top: auto; /* Pushes buttons to bottom */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+/* View Certificate */
+.btn-outline {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-main);
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+/* Action Group (Approve/Reject) */
+.action-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.btn-approve {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.btn-approve:hover {
+  background: var(--success);
+  color: #fff;
+}
+
+.btn-reject {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.btn-reject:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* --- EMPTY STATE --- */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px;
+  background: rgba(255,255,255,0.02);
+  border-radius: var(--radius);
+  border: 1px dashed var(--card-border);
+  color: var(--text-muted);
+}
+
+/* --- LOGOUT SECTION --- */
+.logout-section {
+  border-top: 1px solid var(--card-border);
+  padding-top: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-logout {
+  background: linear-gradient(135deg, var(--primary), #e11d48);
+  color: white;
+  width: 100%;
+  max-width: 200px;
+}
+.btn-logout:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+</style>
+</head>
+
+<body>
+  
+<div class="dashboard-container">
+
+    <header class="dashboard-header">
+        <h2>🛡️ HridyaCare Admin Dashboard</h2>
+    </header>
+
+    <div class="admin-protocol-card">
+        <div class="protocol-icon">⚖️</div>
+        <div class="protocol-content">
+            <h3>Verification Protocol</h3>
+            <p>
+                <strong>Admin Responsibility:</strong> Review pending applications, validate uploaded professional documentation, and authorize qualified experts. 
+                Use this panel to approve Health Coaches, enabling them to provide secure, personalized guidance to HridyaCare users.
+            </p>
+        </div>
+    </div>
+
+    <h3 style="margin-bottom: 20px; color: var(--text-muted); font-size: 14px; text-transform:uppercase; letter-spacing:1px;">Pending Applications</h3>
+
+    <div class="coach-grid">
+        {% if coaches|length == 0 %}
+            <div class="empty-state">
+                <h3>All Caught Up! 🎉</h3>
+                <p>No pending Health Coach applications at this time.</p>
+            </div>
+        {% else %}
+            {% for c in coaches %}
+                <div class="admin-card">
+                    <div class="coach-info">
+                        <p>Username <strong>{{ c.username }}</strong></p>
+                        <p>Email <strong>{{ c.email }}</strong></p>
+                    </div>
+
+                    <div class="admin-actions">
+                        
+                        {% if c.certificate_path %}
+                            <a href="{{ url_for('view_certificate', filename=c.certificate_path) }}" 
+                               target="_blank" 
+                               class="btn btn-outline">
+                               📄 View Certificate
+                            </a>
+                        {% else %}
+                            <button class="btn btn-outline" disabled style="opacity:0.5; cursor:not-allowed">
+                                ⚠️ No Doc Uploaded
+                            </button>
+                        {% endif %}
+
+                        <div class="action-group">
+                            <a href="{{ url_for('approve_coach', coach_id=c.id) }}" class="btn btn-approve">
+                                ✔ Approve
+                            </a>
+                            <a href="{{ url_for('reject_coach', coach_id=c.id) }}" class="btn btn-reject">
+                                ✖ Reject
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="logout-section">
+        <form method="POST" action="{{ url_for('logout') }}">
+            <button type="submit" class="btn btn-logout">🔒 Secure Logout</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

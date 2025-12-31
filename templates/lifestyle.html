@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lifestyle Analysis | CardioSense</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg-main: #0b1220;
+    --bg-gradient: linear-gradient(180deg, #0b1220 0%, #020617 100%);
+    
+    /* Futuristic Palette */
+    --primary: #f43f5e;
+    --primary-glow: rgba(244, 63, 94, 0.4);
+    
+    --success: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.1);
+    --success-border: rgba(16, 185, 129, 0.2);
+    
+    --warning: #f59e0b;
+    --warning-bg: rgba(245, 158, 11, 0.1);
+    --warning-border: rgba(245, 158, 11, 0.2);
+    
+    --danger: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.1);
+    --danger-border: rgba(239, 68, 68, 0.3);
+
+    --card-surface: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(255, 255, 255, 0.08);
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+}
+
+* { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 0 16px 100px;
+}
+
+/* ================= HEADER UI (IMPROVED) ================= */
+.header-section {
+    padding: 60px 20px 40px;
+    text-align: center;
+    position: relative;
+    background: radial-gradient(circle at center top, rgba(59, 130, 246, 0.15), transparent 70%);
+}
+
+.header-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.header-section h1 {
+    margin: 0 0 12px 0;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+}
+
+.subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* ================= INPUT CARDS ================= */
+.card {
+    background: var(--card-surface);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+input, select {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    background: rgba(15, 23, 42, 0.6);
+    color: white;
+    margin-bottom: 20px; /* Increased spacing */
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.1);
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.inline-inputs {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px; /* Fix gap */
+}
+
+/* BUTTONS */
+.btn-primary {
+    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+    color: white;
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px -5px rgba(244, 63, 94, 0.5);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-muted);
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    font-size: 15px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-outline:hover {
+    color: white;
+    border-color: white;
+}
+
+/* ================= RESULT & INSIGHTS (PREMIUM UI) ================= */
+.result {
+    display: none;
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Score Circle Area */
+.score-wrap {
+    text-align: center;
+    padding: 20px 0 30px;
+    position: relative;
+}
+
+.score-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.score {
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -2px;
+    display: inline-block;
+    background: -webkit-linear-gradient(#fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Dynamic Score Colors */
+.score.good { background: linear-gradient(135deg, #34d399, #10b981); -webkit-background-clip: text; }
+.score.average { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; }
+.score.poor { background: linear-gradient(135deg, #f87171, #ef4444); -webkit-background-clip: text; }
+
+#scoreLevel {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    display: inline-block;
+}
+#scoreLevel.good { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+#scoreLevel.average { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+#scoreLevel.poor { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+/* Insight Grid/List */
+.insight-box h3 {
+    font-size: 18px;
+    color: white;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.insight-box h3::before {
+    content: ''; display: block; width: 4px; height: 18px; background: var(--primary); border-radius: 2px;
+}
+
+.insight-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* The Insight Cards */
+.insight-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.insight-card .icon-box {
+    width: 42px; height: 42px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.insight-card .text-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+/* Automatic Logic Styling (injected via JS logic) */
+/* WARNING CARD (Red/Amber) */
+.insight-card.is-warning {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.08) 0%, transparent 100%);
+    border-left: 3px solid #ef4444;
+}
+.insight-card.is-warning .icon-box { background: rgba(239, 68, 68, 0.2); }
+.insight-card.is-warning .text-content { color: #fca5a5; }
+
+/* SUCCESS CARD (Green/Neutral) */
+.insight-card.is-success {
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+    border-left: 3px solid #10b981;
+}
+.insight-card.is-success .icon-box { background: rgba(16, 185, 129, 0.15); }
+.insight-card.is-success .text-content { color: #d1fae5; }
+
+/* The Bottom Score Grid */
+.mini-score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.mini-score {
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.mini-score strong {
+    display: block;
+    font-size: 16px;
+    color: white;
+    margin-top: 4px;
+}
+
+/* ================= FIXES FROM OLD CSS ================= */
+.error-text { color: #ef4444; font-size: 12px; margin: -15px 0 15px; }
+.input-error { border-color: #ef4444 !important; animation: shake 0.3s ease; }
+
+.meal-grid { display: flex; gap: 10px; margin-bottom: 20px; }
+.time-box {
+    flex: 1; background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 16px; padding: 12px;
+    text-align: center; position: relative; cursor: pointer;
+    transition: 0.2s;
+}
+.time-box:hover { background: rgba(255,255,255,0.06); }
+.time-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+.time-label { font-size: 12px; color: var(--text-muted); }
+.time-box input { position: absolute; inset: 0; opacity: 0; cursor: pointer; margin: 0; height: 100%; }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+@media (max-width: 480px) {
+    .header-section h1 { font-size: 28px; }
+    .card { padding: 20px; }
+    .mini-score-grid { grid-template-columns: 1fr; }
+}
+
+/* Hides default browser styles */
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header-section">
+        <div class="header-badge">AI Health Engine</div>
+        <h1>Lifestyle Analysis</h1>
+        <p class="subtitle">Understand how your daily habits affect your long-term cardiovascular health score.</p>
+    </div>
+
+    <form id="lifeForm" class="card">
+
+        <label>⚖️ Weight (kg)</label>
+        <input type="number" id="weight" placeholder="e.g. 70">
+        <p class="error-text" id="weightError"></p>
+
+        <label>💧 Daily Water Intake (liters)</label>
+        <input type="number" step="0.1" id="water" placeholder="e.g. 2.5">
+        <p class="error-text" id="waterError"></p>
+
+        <label>😴 Average Sleep (hours/day)</label>
+        <input type="number" step="0.1" id="sleep" placeholder="e.g. 7.5">
+        <p class="error-text" id="sleepError"></p>
+
+        <label>🏃 Daily Physical Activity</label>
+        <div class="inline-inputs">
+            <input type="number" id="activityHours" placeholder="Hours" min="0">
+            <input type="number" id="activityMinutes" placeholder="Minutes" min="0" max="59">
+        </div>
+        <p class="error-text" id="activityError"></p>
+
+        <label>🍽️ Meal Timing</label>
+        <div class="meal-grid">
+            <div class="time-box">
+                <span class="time-icon">🍳</span>
+                <span class="time-label" id="lbl-breakfast">Breakfast</span>
+                <input type="time" id="breakfast" onchange="updateLabel(this, 'lbl-breakfast')">
+            </div>
+            <div class="time-box">
+                <span class="time-icon">🥗</span>
+                <span class="time-label" id="lbl-lunch">Lunch</span>
+                <input type="time" id="lunch" onchange="updateLabel(this, 'lbl-lunch')">
+            </div>
+            <div class="time-box">
+                <span class="time-icon">🍽️</span>
+                <span class="time-label" id="lbl-dinner">Dinner</span>
+                <input type="time" id="dinner" onchange="updateLabel(this, 'lbl-dinner')">
+            </div>
+        </div>
+
+        <label>📅 Meal Regularity</label>
+        <select id="mealRegularity">
+            <option value="">Select Meal Regularity</option>
+            <option value="regular">Daily on time</option>
+            <option value="sometimes">Sometimes late</option>
+            <option value="irregular">Irregular</option>
+        </select>
+        <p class="error-text" id="mealError"></p>
+
+
+        <label>🚬 Smoking</label>
+        <select id="smoking">
+            <option value="">Select Smoking Habit</option>
+            <option value="no">No</option>
+            <option value="occasional">Occasional</option>
+            <option value="regular">Regular</option>
+        </select>
+        <p class="error-text" id="smokingError"></p>
+
+
+        <label>🍺 Alcohol Consumption</label>
+        <select id="alcohol">
+            <option value="">Select Alcohol Habit</option>
+            <option value="no">No</option>
+            <option value="occasional">Occasional</option>
+            <option value="regular">Regular</option>
+        </select>
+        <p class="error-text" id="alcoholError"></p>
+
+
+        <button class="btn-primary" type="submit">
+            Analyze Lifestyle
+        </button>
+    </form>
+
+    <div class="card result" id="resultBox">
+        
+        <div class="score-wrap">
+            <div class="score-label">Lifestyle Health Score</div>
+            <div class="score" id="finalScore">0</div>
+            <br>
+            <div id="scoreLevel">Evaluating...</div>
+        </div>
+
+        <div class="insight-box">
+            <h3>Insights & Recommendations</h3>
+            <ul id="tips" class="insight-list"></ul>
+            
+            <div class="mini-score-grid" id="miniScores">
+                </div>
+        </div>
+<button class="btn-outline" onclick="retakeLifestyle()">
+            Retake Assessment
+        </button>
+        <button class="btn-primary" onclick="goBackToDashboard()" style="margin-top:20px;">
+            Back to Dashboard
+        </button>
+
+        
+
+    </div>
+
+</div>
+
+<script>
+// UI Helper for Time inputs
+function updateLabel(input, labelId) {
+    document.getElementById(labelId).innerText = input.value || "Set Time";
+}
+
+function showError(inputEl, errorId, msg) {
+    inputEl.classList.add("input-error");
+    const err = document.getElementById(errorId);
+    if (err) err.innerText = msg;
+}
+
+function clearErrors() {
+    document.querySelectorAll(".input-error").forEach(el => el.classList.remove("input-error"));
+    document.querySelectorAll(".error-text").forEach(el => el.innerText = "");
+}
+
+document.getElementById("lifeForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    clearErrors();
+
+    // Elements
+    const weightEl = document.getElementById("weight");
+    const waterEl = document.getElementById("water");
+    const sleepEl = document.getElementById("sleep");
+    const hrsEl = document.getElementById("activityHours");
+    const minsEl = document.getElementById("activityMinutes");
+    const mealRegEl = document.getElementById("mealRegularity");
+    const smokingEl = document.getElementById("smoking");
+    const alcoholEl = document.getElementById("alcohol");
+
+    // Values
+    const weight = +weightEl.value;
+    const water = +waterEl.value;
+    const sleep = +sleepEl.value;
+    const activity = (+hrsEl.value || 0) * 60 + (+minsEl.value || 0);
+    const mealReg = mealRegEl.value;
+    const smoking = smokingEl.value;
+    const alcohol = alcoholEl.value;
+
+    // Validation
+    if (!weight) return showError(weightEl, "weightError", "Enter weight");
+    if (!water) return showError(waterEl, "waterError", "Enter water intake");
+    if (!sleep) return showError(sleepEl, "sleepError", "Enter sleep hours");
+    if (!mealReg) return showError(mealRegEl, "mealError", "Select meal regularity");
+    if (!smoking) return showError(smokingEl, "smokingError", "Select smoking habit");
+    if (!alcohol) return showError(alcoholEl, "alcoholError", "Select alcohol habit");
+
+    // ================= LOGIC (UNCHANGED) =================
+    const idealWater = 0.035 * weight;
+    let hydrationScore;
+    if (water >= idealWater) hydrationScore = 100;
+    else if (water >= idealWater * 0.8) hydrationScore = 75;
+    else if (water >= idealWater * 0.6) hydrationScore = 50;
+    else hydrationScore = 25;
+
+    let sleepScore;
+    if (sleep >= 7 && sleep <= 9) sleepScore = 100;
+    else if (sleep >= 6) sleepScore = 75;
+    else if (sleep >= 5) sleepScore = 50;
+    else if (sleep >= 4) sleepScore = 30;
+    else sleepScore = 10;
+
+    let activityScore;
+    if (activity >= 60) activityScore = 100;
+    else if (activity >= 45) activityScore = 75;
+    else if (activity >= 30) activityScore = 50;
+    else if (activity >= 15) activityScore = 30;
+    else activityScore = 10;
+
+    let nutritionScore = mealReg === "regular" ? 100 : mealReg === "sometimes" ? 70 : 40;
+    if (smoking === "regular") nutritionScore -= 20;
+    if (alcohol === "regular") nutritionScore -= 15;
+    nutritionScore = Math.max(nutritionScore, 20);
+
+    let finalScore = Math.round(0.35 * sleepScore + 0.25 * hydrationScore + 0.20 * activityScore + 0.20 * nutritionScore);
+    if (sleep < 4) finalScore = Math.min(finalScore, 40);
+
+    // ================= GENERATE DATA OBJECTS =================
+    // Instead of plain strings, we create objects to help the UI identify good vs bad
+    let tipsData = [];
+
+    // 1. MAIN SUMMARY
+    if (finalScore >= 80) {
+        tipsData.push({ type: 'good', text: "✅ Your overall lifestyle score indicates strong daily health habits. You are maintaining a balance that supports long-term health." });
+    } else if (finalScore >= 55) {
+        tipsData.push({ type: 'average', text: "⚠️ Your lifestyle habits are moderately healthy, but consistency is key. Small improvements can significantly enhance energy." });
+    } else {
+        tipsData.push({ type: 'poor', text: "🚨 Your current lifestyle patterns indicate increased health risk. Improving sleep and hydration should be a priority." });
+    }
+
+    // 2. HYDRATION
+    if (hydrationScore >= 90) tipsData.push({ type: 'good', text: "💧 Hydration Status: Excellent. Supports blood circulation and heart efficiency." });
+    else if (hydrationScore >= 60) tipsData.push({ type: 'average', text: "💧 Hydration Status: Moderate. Increase water to reduce fatigue." });
+    else tipsData.push({ type: 'poor', text: "💧 Hydration Status: Low. Inadequate hydration puts strain on the heart." });
+
+    // 3. SLEEP
+    if (sleepScore >= 90) tipsData.push({ type: 'good', text: "😴 Sleep Quality: Excellent. Supports hormonal balance and recovery." });
+    else if (sleepScore >= 60) tipsData.push({ type: 'average', text: "😴 Sleep Quality: Fair. Consistent duration could enhance recovery." });
+    else tipsData.push({ type: 'poor', text: "😴 Sleep Quality: Poor. Sleep deprivation increases stress hormones." });
+
+    // 4. ACTIVITY
+    if (activityScore >= 75) tipsData.push({ type: 'good', text: "🏃 Physical Activity: Strong. Supports metabolism and stamina." });
+    else if (activityScore >= 40) tipsData.push({ type: 'average', text: "🏃 Physical Activity: Moderate. Add 15 mins of walking to improve." });
+    else tipsData.push({ type: 'poor', text: "🏃 Physical Activity: Low. Sedentary routine negatively impacts heart health." });
+
+    // 5. NUTRITION
+    if (nutritionScore >= 85) tipsData.push({ type: 'good', text: "🥗 Nutrition: Well balanced. Regular timing supports metabolism." });
+    else if (nutritionScore >= 60) tipsData.push({ type: 'average', text: "🥗 Nutrition: Average. Improve meal timing for better energy." });
+    else tipsData.push({ type: 'poor', text: "🥗 Nutrition: Irregular. Skipped meals affect long-term stability." });
+
+    // 6. RISKS
+    if (smoking === "regular") tipsData.push({ type: 'poor', text: "🚭 Smoking Risk: Reduces oxygen delivery. Reducing frequency helps immediately." });
+    if (alcohol === "regular") tipsData.push({ type: 'poor', text: "🍺 Alcohol Impact: Disrupts sleep quality and hydration." });
+
+    // 7. DINNER TIME
+    const dinnerTime = document.getElementById("dinner").value;
+    if (dinnerTime && dinnerTime > "21:30") {
+        tipsData.push({ type: 'average', text: "⏰ Late Dinner Pattern. Eating late interferes with digestion and sleep." });
+    }
+
+    // ================= RENDER UI =================
+    
+    // 1. Score
+    const scoreEl = document.getElementById("finalScore");
+    const levelEl = document.getElementById("scoreLevel");
+    scoreEl.innerText = finalScore;
+    
+    scoreEl.className = "score"; // reset
+    levelEl.className = ""; // reset
+    
+    let cls = finalScore >= 80 ? "good" : finalScore >= 55 ? "average" : "poor";
+    let lvlText = finalScore >= 80 ? "Healthy Lifestyle" : finalScore >= 55 ? "Moderate Lifestyle" : "Needs Improvement";
+    
+    scoreEl.classList.add(cls);
+    levelEl.classList.add(cls);
+    levelEl.innerText = lvlText;
+
+    // 2. Insight Cards (Grid)
+    const listEl = document.getElementById("tips");
+    listEl.innerHTML = tipsData.map(item => {
+        // Extract Emoji
+        const iconMatch = item.text.match(/^([\p{Emoji}\uFE0F\u200D]+)/u);
+        const icon = iconMatch ? iconMatch[0] : "•";
+        const cleanText = item.text.replace(icon, "").trim();
+        
+        // Visual Class based on type
+        let cardClass = "is-success";
+        if (item.type === 'poor') cardClass = "is-warning";
+        if (item.type === 'average') cardClass = "is-warning"; // Use warning style for average too for visibility
+
+        return `
+        <li class="insight-card ${cardClass}">
+            <div class="icon-box">${icon}</div>
+            <div class="text-content">${cleanText}</div>
+        </li>
+        `;
+    }).join("");
+
+    // 3. Mini Score Grid (New Feature)
+    const miniGrid = document.getElementById("miniScores");
+    miniGrid.innerHTML = `
+        <div class="mini-score">💧 Hydration <strong>${Math.round(hydrationScore)}%</strong></div>
+        <div class="mini-score">😴 Sleep <strong>${sleepScore}%</strong></div>
+        <div class="mini-score">🏃 Activity <strong>${activityScore}%</strong></div>
+        <div class="mini-score">🥗 Nutrition <strong>${nutritionScore}%</strong></div>
+    `;
+
+    // Show Result
+    document.getElementById("resultBox").style.display = "block";
+    
+    // Smooth scroll to result
+    setTimeout(() => {
+        document.getElementById("resultBox").scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+});
+
+function goBackToDashboard() { window.location.replace("/"); }
+function retakeLifestyle() { window.location.reload(); }
+</script>
+
+</body>
+</html>

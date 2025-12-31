@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | HridyaCare</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* Refined Color Palette */
+  --bg: #0f172a;
+  --bg-gradient: radial-gradient(circle at top right, #1e293b, #0f172a);
+  --card: rgba(30, 41, 59, 0.7);
+  --border: rgba(255, 255, 255, 0.08);
+  --primary: #ff4d6d;
+  --primary-glow: rgba(255, 77, 109, 0.3);
+  --soft-bg: rgba(255, 77, 109, 0.08);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --radius-lg: 24px;
+  --radius-md: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  z-index: 100;
+}
+
+.nav-wrap {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-area h1 {
+  font-family: 'Poppins';
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  background: linear-gradient(to right, #fff, var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-area span {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.back-link {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  border: 1px solid var(--border);
+}
+
+.back-link:hover {
+  background: var(--soft-bg);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Layout */
+.main-layout {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 40px;
+  padding: 60px 24px;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.sidebar h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li a {
+  display: block;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 0;
+  transition: var(--transition);
+}
+
+.sidebar li a:hover {
+  color: var(--text-main);
+  padding-left: 5px;
+}
+
+/* Content Area */
+.intro {
+  margin-bottom: 48px;
+}
+
+.intro h2 {
+  font-family: 'Poppins';
+  font-size: 42px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.intro p {
+  color: var(--text-muted);
+  font-size: 18px;
+  max-width: 700px;
+}
+
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-bottom: 32px;
+  transition: var(--transition);
+}
+
+.section:hover {
+  border-color: rgba(255, 77, 109, 0.3);
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  transform: translateY(-2px);
+}
+
+.section h3 {
+  color: var(--text-main);
+  font-size: 22px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.section h3::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: var(--primary);
+  margin-right: 12px;
+  border-radius: 2px;
+}
+
+.section p, .section li {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.section ul {
+  padding-left: 20px;
+}
+
+.highlight {
+  background: var(--soft-bg);
+  border-left: 4px solid var(--primary);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  margin-top: 20px;
+}
+
+.highlight strong {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact-box {
+  background: linear-gradient(135deg, var(--soft-bg) 0%, transparent 100%);
+  border: 1px solid var(--primary);
+  text-align: center;
+  padding: 40px;
+}
+
+.footer {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .intro h2 { font-size: 32px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo-area">
+      <h1>HridyaCare</h1>
+      <span>Security & Transparency</span>
+    </div>
+    <a href="/" class="back-link">Return to Dashboard</a>
+  </div>
+</header>
+
+<div class="main-layout">
+  
+  <aside class="sidebar">
+    <h4>Contents</h4>
+    <ul>
+      <li><a href="#info">1. Information Collection</a></li>
+      <li><a href="#camera">2. Camera Usage</a></li>
+      <li><a href="#purpose">3. Data Purpose</a></li>
+      <li><a href="#disclaimer">4. Medical Disclaimer</a></li>
+      <li><a href="#storage">5. Retention</a></li>
+      <li><a href="#contact">6. Get in Touch</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <div class="intro">
+      <h2>Privacy Policy</h2>
+      <p>
+        Your health data is sensitive. We’ve designed HridyaCare to prioritize 
+        your privacy through immediate data disposal and transparent processing.
+      </p>
+    </div>
+
+    <div class="section" id="info">
+      <h3>1. Information We Collect</h3>
+      <p>To provide a personalized wellness experience, we collect specific data points:</p>
+      <ul>
+        <li>Basic account details (Name, email, age, and city)</li>
+        <li>Heart-rate readings (Numerical BPM values only)</li>
+        <li>Environmental context (Local Air Quality Index)</li>
+        <li>Anonymous performance telemetry</li>
+      </ul>
+
+      <div class="highlight">
+        <strong>Privacy Shield:</strong> 
+        HridyaCare never stores camera images, video frames, facial data, or raw biometric signals. All processing happens locally or in volatile memory.
+      </div>
+    </div>
+
+    <div class="section" id="camera">
+      <h3>2. How Camera Data Is Handled</h3>
+      <p>
+        Camera input is processed <strong>temporarily and in real time</strong> to estimate
+        physiological signals. Once heart-rate values are calculated,
+        all visual data is immediately purged from the system memory.
+      </p>
+    </div>
+
+    <div class="section" id="purpose">
+      <h3>3. Purpose of Data Usage</h3>
+      <ul>
+        <li>Generating wellness insights and trend summaries</li>
+        <li>Personalizing health reports and recommendations</li>
+        <li>Improving algorithm accuracy and reliability</li>
+        <li>Maintaining secure platform infrastructure</li>
+      </ul>
+    </div>
+
+    <div class="section" id="disclaimer">
+      <h3>4. Medical & Wellness Disclaimer</h3>
+      <div class="highlight" style="border-color: #94a3b8; background: rgba(148, 163, 184, 0.1);">
+        HridyaCare is a wellness-awareness platform and is <strong>not a medical device</strong>.
+        Insights provided are not intended for clinical diagnosis or treatment.
+      </div>
+    </div>
+
+    <div class="section" id="storage">
+      <h3>5. Storage & Retention</h3>
+      <p>
+        Data is encrypted using industry-standard AES-256 protocols and retained
+        only as long as your account remains active. You maintain full ownership 
+        of your data and may request total deletion at any time.
+      </p>
+    </div>
+
+    <div class="section contact-box" id="contact">
+      <h3>Contact Our Privacy Team</h3>
+      <p>Have questions about how we handle your data? Reach out directly:</p>
+      <a href="mailto:om_23013@ldrp.ac.in" style="color: var(--primary); font-weight: 600; text-decoration: none; font-size: 18px;">om_23013@ldrp.ac.in</a>
+    </div>
+
+    <footer class="footer">
+      © 2025 HridyaCare • Committed to User Privacy & Wellness
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coach Dashboard | HridyaCare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0f172a;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+  
+  --primary: #f43f5e; /* Hridya/Heart Rose */
+  --primary-glow: rgba(244, 63, 94, 0.4);
+  --success: #10b981;
+  --warning: #f59e0b;
+  
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.03);
+  
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  
+  --radius: 16px;
+  --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-dark);
+  background-image: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 16px 30px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* MAIN LAYOUT - GRID SYSTEM */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 320px 1fr; /* Sidebar | Content */
+  gap: 24px;
+  align-items: start;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 850px) {
+  main {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+}
+
+/* CARDS COMMON STYLES */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top accent line for cards */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* LEFT COLUMN WRAPPER */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* RIGHT COLUMN WRAPPER */
+.content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* PROFILE */
+.profile-header {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 4px;
+}
+
+#coachEmail {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.verified {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* PATIENT LIST */
+.patient-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Custom Scrollbar */
+.patient-list-container::-webkit-scrollbar {
+  width: 4px;
+}
+.patient-list-container::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 4px;
+}
+
+.patient {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.patient:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(4px);
+}
+
+.patient.active {
+  background: rgba(244, 63, 94, 0.1);
+  border-color: rgba(244, 63, 94, 0.3);
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.patient-name {
+  font-weight: 500;
+  font-size: 14px;
+  color: #e2e8f0;
+}
+
+.patient-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* SHARED SUMMARY (Enhanced visuals for data) */
+#sharedSummary {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 0;
+}
+
+/* Targeting generated LI elements via CSS to make them look like cards */
+#sharedSummary li {
+  background: rgba(0,0,0,0.2);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#sharedSummary li strong {
+  display: block;
+  font-size: 18px;
+  color: white;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* NOTES SECTION */
+.notes-wrapper {
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-bottom: 20px;
+}
+
+/* Scrollbar for notes */
+.notes-wrapper::-webkit-scrollbar {
+  width: 4px;
+}
+.notes-wrapper::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 4px;
+}
+
+.note {
+  position: relative;
+  padding: 0 0 20px 20px;
+  border-left: 2px solid var(--card-border);
+}
+
+.note::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--primary);
+}
+
+.note:last-child {
+  border-left-color: transparent;
+}
+
+.note-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.note-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  background: rgba(255,255,255,0.03);
+  padding: 12px;
+  border-radius: 0 12px 12px 12px;
+  border: 1px solid var(--card-border);
+}
+
+/* INPUT & BUTTONS */
+textarea {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: rgba(15, 23, 42, 0.6);
+  color: white;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.15);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--primary), #e11d48);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"></path></svg>
+    Coach Dashboard
+  </h2>
+</header>
+
+<main>
+
+  <div class="sidebar">
+    <div class="card">
+      <div class="section-title">My Profile</div>
+      <div class="profile-header">
+        <div class="profile-name" id="coachName">Loading...</div>
+        <div class="patient-meta" id="coachEmail"></div>
+        <span class="verified" id="coachStatus"></span>
+        <div class="section-title">Patient Requests</div>
+  <div id="assignedPatients" class="patient-list-container">
+    <p class="patient-meta">Loading requests...</p>
+  </div>
+      </div>
+    </div>
+
+    
+
+  <div class="content-area">
+    <div class="card">
+      <div class="section-title">Health Vitals Overview</div>
+      <ul id="sharedSummary">
+        <li style="grid-column: 1 / -1; text-align:center; border:none; background:transparent;">Select a patient to view health summary</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Progress Notes</div>
+      
+      <div id="notesContainer" class="notes-wrapper">
+        {% for n in notes %}
+          <div class="note">
+            <div class="note-date">{{ n.created_at.strftime("%d %b %Y") }}</div>
+            <div class="note-text">{{ n.note }}</div>
+          </div>
+        {% else %}
+          <p class="patient-meta" style="padding-left:10px;">No notes yet</p>
+        {% endfor %}
+      </div>
+
+      <div style="border-top: 1px solid var(--card-border); padding-top: 20px;">
+        <textarea rows="3" placeholder="Type a new observation or recommendation..."></textarea>
+        <button>Save Note</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+document.querySelectorAll(".patient").forEach(card => {
+  card.addEventListener("click", async () => {
+    document.querySelectorAll(".patient").forEach(p => p.classList.remove("active"));
+    card.classList.add("active");
+
+    const userId = card.dataset.patientId;
+
+    // ✅ THIS IS WHERE IT GOES
+    loadUserVitalsForCoach(userId);
+
+    // Existing notes logic (keep as-is)
+    const notesRes = await fetch(`/api/coach/patient/${userId}`);
+    const notesData = await notesRes.json();
+
+    const notes = document.getElementById("notesContainer");
+    notes.innerHTML = "";
+
+    if (!notesData.notes || notesData.notes.length === 0) {
+      notes.innerHTML = `<p class="patient-meta" style="padding-left:10px;">No notes yet</p>`;
+      return;
+    }
+
+    notesData.notes.forEach(n => {
+      notes.innerHTML += `
+        <div class="note">
+          <div class="note-date">${n.date}</div>
+          <div class="note-text">${n.note}</div>
+        </div>
+      `;
+    });
+  });
+});
+
+</script>
+
+<script>
+const addNoteBtn = document.querySelector("button");
+const noteInput = document.querySelector("textarea");
+
+addNoteBtn.addEventListener("click", async () => {
+  const activePatient = document.querySelector(".patient.active");
+  if (!activePatient) return;
+
+  const note = noteInput.value.trim();
+  if (!note) return alert("Write a note first");
+
+  await fetch("/api/coach/add-note", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      patient_id: activePatient.dataset.patientId,
+      note
+    })
+  });
+
+  noteInput.value = "";
+  activePatient.click();
+});
+</script>
+
+<script>
+async function loadCoachProfile() {
+  const res = await fetch("/api/coach/profile");
+  const data = await res.json();
+  coachName.innerText = data.name;
+  coachEmail.innerText = data.email;
+  coachStatus.innerText =
+    data.status === "approved" ? "✔ Verified Coach" : "Pending Verification";
+}
+loadCoachProfile();
+</script> 
+<script> 
+fetch("/api/coach/requests")
+  .then(res => res.json())
+  .then(data => {
+    const box = document.getElementById("assignedPatients");
+    box.innerHTML = "";
+
+    if (!data.length) {
+      box.innerHTML = "<p>No patient requests yet.</p>";
+      return;
+    }
+
+    data.forEach(req => {
+      box.innerHTML += `
+        <div class="patient" data-patient-id="${req.patient_id}">
+          <div>
+            <div class="patient-name">${req.patient}</div>
+            <div class="patient-meta">${req.reason}</div>
+          </div>
+          <div>›</div>
+        </div>
+      `;
+    });
+
+    attachPatientClickHandlers();
+});
+
+function attachPatientClickHandlers() {
+  document.querySelectorAll(".patient").forEach(card => {
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".patient").forEach(p => p.classList.remove("active"));
+      card.classList.add("active");
+
+      const patientId = card.dataset.patientId;
+
+      // ✅ LOAD EVERYTHING FROM ONE PLACE
+      loadUserVitalsForCoach(patientId);
+      loadNotes(patientId);
+    });
+  });
+}
+
+
+async function loadFullTracker(userId) {
+  const res = await fetch(`/api/coach/patient/${userId}/last-7`);
+  const data = await res.json();
+
+  if (!data.length) {
+    sharedSummary.innerHTML =
+      `<li style="grid-column:1/-1;text-align:center;">No data available</li>`;
+    return;
+  }
+
+  const bpmValues = data.map(d => d.bpm);
+
+  sharedSummary.innerHTML = `
+    <li>Average BPM <strong>${avg(bpmValues)}</strong></li>
+    <li>Max BPM <strong>${Math.max(...bpmValues)}</strong></li>
+    <li>Min BPM <strong>${Math.min(...bpmValues)}</strong></li>
+    <li>Records <strong>${data.length}</strong></li>
+    <li style="grid-column:1/-1">
+      <canvas id="coachHeartChart" height="180"></canvas>
+    </li>
+  `;
+
+  drawCoachGraph(bpmValues);
+}
+
+
+function drawCoachGraph(values) {
+  new Chart(document.getElementById("coachHeartChart"), {
+    type: "bar",
+    data: {
+      labels: values.map((_, i) => `Scan ${i + 1}`),
+      datasets: [{
+        data: values,
+        backgroundColor: "#f43f5e",
+        borderRadius: 8
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { display: false },
+        y: { min: 40 }
+      }
+    }
+  });
+}
+
+function avg(arr) {
+  return Math.round(arr.reduce((a,b)=>a+b,0) / arr.length);
+}
+
+
+
+</script> 
+
+<script>
+async function loadNotes(userId) {
+  const res = await fetch("/api/coach/requests");
+  const requests = await res.json();
+
+  const notes = document.getElementById("notesContainer");
+  notes.innerHTML = "";
+
+  const req = requests.find(r => r.patient_id == userId);
+
+  if (req) {
+    notes.innerHTML += `
+      <div class="note">
+        <div class="note-date">Consultation Request</div>
+        <div class="note-text">${req.details || "No additional details provided"}</div>
+      </div>
+    `;
+  }
+
+  // Load coach notes (existing logic)
+  const notesRes = await fetch(`/api/coach/patient/${userId}`);
+  const notesData = await notesRes.json();
+
+  if (notesData.notes && notesData.notes.length) {
+    notesData.notes.forEach(n => {
+      notes.innerHTML += `
+        <div class="note">
+          <div class="note-date">${n.date}</div>
+          <div class="note-text">${n.note}</div>
+        </div>
+      `;
+    });
+  }
+
+  if (!notes.innerHTML.trim()) {
+    notes.innerHTML = `<p class="patient-meta">No messages yet</p>`;
+  }
+}
+</script>
+
+<script>
+async function loadNotes(userId) {
+  const res = await fetch("/api/coach/requests");
+  const requests = await res.json();
+
+  console.log("Coach Requests:", requests); // 🔍 DEBUG
+
+  const notes = document.getElementById("notesContainer");
+  notes.innerHTML = "";
+
+  const req = requests.find(r => String(r.patient_id) === String(userId));
+
+  if (req) {
+    notes.innerHTML += `
+      <div class="note">
+        <div class="note-date">Consultation Request</div>
+        <div class="note-text">
+          ${req.details ? req.details : "No additional details provided"}
+        </div>
+      </div>
+    `;
+  }
+
+  // Load coach notes (existing logic)
+  const notesRes = await fetch(`/api/coach/patient/${userId}`);
+  const notesData = await notesRes.json();
+
+  if (notesData.notes && notesData.notes.length) {
+    notesData.notes.forEach(n => {
+      notes.innerHTML += `
+        <div class="note">
+          <div class="note-date">${n.date}</div>
+          <div class="note-text">${n.note}</div>
+        </div>
+      `;
+    });
+  }
+
+  if (!notes.innerHTML.trim()) {
+    notes.innerHTML = `<p class="patient-meta">No messages yet</p>`;
+  }
+}
+</script>
+
+<script> 
+function loadPatientGraph(username, canvasId) {
+    fetch(`/api/coach/patient/${username}/last-7`)
+      .then(res => res.json())
+      .then(data => {
+        new Chart(document.getElementById(canvasId), {
+          type: "bar",
+          data: {
+            labels: data.map((_, i) => `Scan ${i+1}`),
+            datasets: [{
+              data: data.map(d => d.bpm),
+              backgroundColor: "#f43f5e",
+              borderRadius: 8
+            }]
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            scales: { x: { display: false }, y: { min: 40 } }
+          }
+        });
+      });
+}
+</script> 
+<script>
+async function loadUserVitalsForCoach(userId) {
+  // 1️⃣ Load summary
+  const res = await fetch(`/api/last-health-summary?user_id=${userId}`);
+  const data = await res.json();
+
+  const summary = document.getElementById("sharedSummary");
+
+  if (!data.exists) {
+    summary.innerHTML =
+      `<li style="grid-column:1/-1;text-align:center;">No recent health data</li>`;
+    return;
+  }
+
+  summary.innerHTML = `
+    <li>Heart Rate <strong>${data.bpm} BPM</strong></li>
+    <li>Impact Level <strong>${data.impactCategory}</strong></li>
+    <li>Status <strong>${data.message}</strong></li>
+    <li>Last Updated <strong>${new Date(data.timestamp).toLocaleString()}</strong></li>
+  `;
+
+  loadFullTracker(userId);
+}
+</script>
+
+</body>
+</html>

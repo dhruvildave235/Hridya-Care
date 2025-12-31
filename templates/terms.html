@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms & Conditions | HridyaCare</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* Unified Color Palette */
+  --bg: #0f172a;
+  --bg-gradient: radial-gradient(circle at top right, #1e293b, #0f172a);
+  --card: rgba(30, 41, 59, 0.7);
+  --border: rgba(255, 255, 255, 0.08);
+  --primary: #ff4d6d;
+  --primary-glow: rgba(255, 77, 109, 0.3);
+  --soft-bg: rgba(255, 77, 109, 0.08);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --radius-lg: 24px;
+  --radius-md: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  z-index: 100;
+}
+
+.nav-wrap {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-area h1 {
+  font-family: 'Poppins';
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  background: linear-gradient(to right, #fff, var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-area span {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.back-link {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  border: 1px solid var(--border);
+}
+
+.back-link:hover {
+  background: var(--soft-bg);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.main-layout {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  padding: 60px 24px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.sidebar h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.sidebar ul { list-style: none; }
+
+.sidebar li a {
+  display: block;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px 0;
+  transition: var(--transition);
+  border-bottom: 1px solid transparent;
+}
+
+.sidebar li a:hover {
+  color: var(--text-main);
+  padding-left: 8px;
+}
+
+/* Content Area */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--soft-bg);
+  color: var(--primary);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.intro h2 {
+  font-family: 'Poppins';
+  font-size: 42px;
+  margin-bottom: 16px;
+}
+
+.intro p {
+  color: var(--text-muted);
+  font-size: 18px;
+  max-width: 700px;
+}
+
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-bottom: 32px;
+  transition: var(--transition);
+}
+
+.section:hover {
+  border-color: rgba(255, 77, 109, 0.3);
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+}
+
+.section h3 {
+  color: var(--text-main);
+  font-size: 22px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.section h3::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: var(--primary);
+  margin-right: 12px;
+  border-radius: 2px;
+}
+
+.section p, .section li {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.section ul { padding-left: 20px; }
+
+.highlight {
+  background: var(--soft-bg);
+  border-left: 4px solid var(--primary);
+  padding: 24px;
+  border-radius: var(--radius-md);
+  margin: 20px 0;
+}
+
+.highlight p {
+  color: var(--text-main);
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.footer {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .intro h2 { font-size: 32px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo-area">
+      <h1>HridyaCare</h1>
+      <span>Compliance & Guidelines</span>
+    </div>
+    <a href="/" class="back-link">Return to Dashboard</a>
+  </div>
+</header>
+
+<div class="main-layout">
+  
+  <aside class="sidebar">
+    <h4>On this page</h4>
+    <ul>
+      <li><a href="#nature">1. Nature & Purpose</a></li>
+      <li><a href="#science">2. Scientific Basis</a></li>
+      <li><a href="#disclaimer">3. Medical Disclaimer</a></li>
+      <li><a href="#responsibility">4. User Responsibilities</a></li>
+      <li><a href="#liability">5. Limitation of Liability</a></li>
+      <li><a href="#contact">6. Contact</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <div class="intro">
+      <span class="badge">Last Updated: January 2025</span>
+      <h2>Terms & Conditions</h2>
+      <p>
+        These Terms govern your use of HridyaCare—a wellness-focused platform 
+        utilizing rPPG technology to provide physiological insights.
+      </p>
+    </div>
+
+    <div class="section" id="nature">
+      <h3>1. Nature & Purpose of HridyaCare</h3>
+      <p>
+        HridyaCare is designed to support <strong>wellness awareness, self-monitoring, and health education</strong>. 
+        The platform analyzes subtle optical changes in facial skin captured via a camera to estimate 
+        physiological trends such as heart rate.
+      </p>
+      <p>
+        The system is intended for <strong>informational and educational use</strong> 
+        and should not be interpreted as a clinical, diagnostic, or therapeutic tool.
+      </p>
+    </div>
+
+    <div class="section" id="science">
+      <h3>2. Scientific Basis & Accuracy</h3>
+      <p>
+        HridyaCare utilizes <strong>remote photoplethysmography (rPPG)</strong>, 
+        a non-contact technique widely studied in academic research.
+      </p>
+
+      <div class="highlight">
+        <p>
+          Camera-based heart-rate estimates typically have a margin of error of 
+          <strong>±8 to ±10 BPM</strong> compared to clinical-grade sensors.
+        </p>
+      </div>
+
+      <p>Accuracy depends on several external variables:</p>
+      <ul>
+        <li>Environmental lighting and shadows</li>
+        <li>User movement and facial expressions</li>
+        <li>Camera resolution and frame rate stability</li>
+        <li>Physical obstructions (makeup, facial hair, masks)</li>
+      </ul>
+    </div>
+
+    <div class="section" id="disclaimer">
+      <h3>3. Medical & Clinical Disclaimer</h3>
+      <div class="highlight" style="background: rgba(255, 255, 255, 0.03); border-color: #94a3b8;">
+        <p style="color: var(--text-muted);">
+          HridyaCare is <strong>not a medical device</strong>. It has not been clinically validated for 
+          emergency assessment or treatment decisions. Never ignore professional medical advice 
+          because of something you have read on this platform.
+        </p>
+      </div>
+    </div>
+
+    <div class="section" id="responsibility">
+      <h3>4. User Responsibilities</h3>
+      <ul>
+        <li>Ensure measurements are taken in a well-lit, quiet environment.</li>
+        <li>Remain still for the duration of the scan for optimal results.</li>
+        <li>Understand that insights are trends, not medical absolutes.</li>
+        <li>Use the data for personal wellness curiosity only.</li>
+      </ul>
+    </div>
+
+    <div class="section" id="liability">
+      <h3>5. Limitation of Liability</h3>
+      <p>
+        To the maximum extent permitted by law, HridyaCare and its developers shall not be 
+        liable for any harm, medical emergencies, or decisions made based on the 
+        wellness insights provided by the software.
+      </p>
+    </div>
+
+    <div class="section" id="contact" style="text-align: center; border: 1px solid var(--primary);">
+      <h3>Questions?</h3>
+      <p>For legal inquiries or clarifications regarding these terms:</p>
+      <a href="mailto:om_23013@ldrp.ac.in" style="color: var(--primary); font-weight: 600; text-decoration: none; font-size: 18px;">om_23013@ldrp.ac.in</a>
+    </div>
+
+    <footer class="footer">
+      © 2025 HridyaCare • Wellness Through Innovation
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>

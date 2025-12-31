@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tele-Health | HridyaCare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text-main: #fff;
+        --text-muted: #94a3b8;
+        --primary: #f43f5e;
+        --primary-hover: #e11d48;
+        --accent: #3b82f6;
+        --warning: #f59e0b;
+        --success: #10b981;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+        color: var(--text-main);
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 480px;
+        padding-bottom: 40px;
+    }
+
+    /* HEADER CARD */
+    .header-card {
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-radius: 24px;
+        padding: 24px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Decorative header background */
+    .header-card::before {
+        content: ''; position: absolute; top: -50px; left: -50px; width: 150px; height: 150px;
+        background: radial-gradient(circle, rgba(244, 63, 94, 0.15), transparent 70%);
+        z-index: 0; pointer-events: none;
+    }
+
+    h2 { margin: 0 0 8px 0; font-size: 22px; font-weight: 700; position: relative; z-index: 1; }
+    p { margin: 0; font-size: 14px; color: var(--text-muted); line-height: 1.5; position: relative; z-index: 1; }
+
+    /* Risk Badge */
+    .risk-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--warning);
+        font-size: 12px; font-weight: 700;
+        margin-top: 14px;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* CARDS */
+    .card {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    h3 { margin: 0 0 12px 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+
+    /* LISTS */
+    ul { padding-left: 20px; margin: 0; }
+    li { margin-bottom: 8px; font-size: 14px; color: var(--text-muted); }
+    strong { color: var(--text-main); }
+
+    /* FORM ELEMENTS */
+    label { display: block; margin-top: 16px; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; }
+    
+    select, textarea {
+        width: 100%;
+        padding: 14px;
+        border-radius: 14px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: white;
+        font-family: inherit; font-size: 14px;
+        transition: 0.2s;
+        outline: none;
+    }
+    
+    select:focus, textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.2);
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+        width: 100%;
+        padding: 16px;
+        margin-top: 24px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-weight: 700; font-size: 15px;
+        cursor: pointer;
+        transition: 0.2s;
+        box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
+    }
+    
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled { background: #334155; color: #94a3b8; cursor: not-allowed; box-shadow: none; }
+
+    .btn-small {
+        padding: 8px 16px;
+        background: rgba(255,255,255,0.1);
+        border: none; border-radius: 12px;
+        color: white; font-size: 12px; font-weight: 600;
+        cursor: pointer; margin-top: 10px;
+    }
+
+    /* COACH TIMELINE */
+    .timeline-item {
+        background: rgba(255,255,255,0.03);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .timeline-item.latest {
+        background: linear-gradient(145deg, rgba(244, 63, 94, 0.05), rgba(30, 41, 59, 0.4));
+        border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .coach-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .coach-name { font-weight: 600; font-size: 14px; }
+    .coach-email { font-size: 11px; color: var(--text-muted); display: block; }
+    
+    .seen-badge {
+        font-size: 10px; padding: 2px 8px; border-radius: 10px;
+        background: rgba(16, 185, 129, 0.2); color: var(--success);
+        font-weight: 600;
+    }
+
+    .msg-body { font-size: 13px; line-height: 1.5; color: #e2e8f0; margin: 10px 0; }
+    .msg-time { font-size: 11px; color: #64748b; text-align: right; }
+
+    /* FOOTER NOTE */
+    .disclaimer {
+        font-size: 11px; color: #64748b; text-align: center; margin-top: 20px; line-height: 1.4;
+    }
+
+    /* SUCCESS BOX */
+    .success-box {
+        text-align: center;
+        padding: 30px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px dashed rgba(16, 185, 129, 0.4);
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="header-card">
+        <h2>🧑‍⚕️ Wellness Consultation</h2>
+        <p>Connect with a certified health coach to review your heart data and receive personalized guidance.</p>
+        <span class="risk-badge" id="riskBadge">Loading Risk Status...</span>
+    </div>
+
+    <div class="card">
+        <h3>ℹ️ How It Works</h3>
+        <ul>
+            <li>Your recent trends are summarized securely.</li>
+            <li>A certified coach reviews your anonymous data.</li>
+            <li>You receive actionable lifestyle advice.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>📊 Shared Data Summary</h3>
+        <ul id="healthSummary" style="list-style: none; padding: 0;">
+            <li style="text-align:center; padding:20px; color:#64748b;">Loading health data...</li>
+        </ul>
+    </div>
+    <div class="card" id="coachVitalsCard" style="display:none;">
+  <h3>🧑‍⚕️ Health Vitals Overview</h3>
+
+  <div id="coachVitalsContent" style="font-size:14px;color:#e5e7eb;">
+      Loading user vitals...
+  </div>
+
+  <canvas id="coachVitalsChart" height="160" style="margin-top:14px;"></canvas>
+</div>
+
+
+    <div class="card" id="consultFormCard">
+        <h3>📝 Request Consultation</h3>
+
+        <label for="coachSelect">Select Health Coach</label>
+        <select id="coachSelect">
+            <option value="" disabled selected>Loading available coaches...</option>
+        </select>
+        
+        <label for="reason">Primary Concern</label>
+        <select id="reason">
+            <option>High Heart Rate Trends</option>
+            <option>Stress & Anxiety Management</option>
+            <option>Recovery & Fatigue</option>
+            <option>General Wellness Check</option>
+            <option>Other</option>
+        </select>
+
+        <label for="notes">Additional Details (Optional)</label>
+        <textarea id="notes" rows="3" placeholder="Briefly describe how you've been feeling..."></textarea>
+
+        <button id="requestConsultationBtn" class="btn-primary">
+            Submit Request
+        </button>
+    </div>
+
+    <div class="card success-box" id="successScreen" style="display:none;">
+        <div style="font-size:40px; margin-bottom:10px;">✅</div>
+        <h3 style="justify-content:center;">Request Sent!</h3>
+        <p>Your consultation request has been submitted. A health coach will review your data and respond shortly.</p>
+    </div>
+
+    <div class="card">
+        <h3>💬 Coach Responses</h3>
+        <div id="coachTimeline">
+            <p style="text-align:center; color:#64748b; font-size:13px; padding:20px;">No responses yet.</p>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        HridyaCare consultations provide general wellness guidance only and do not replace professional medical diagnosis or treatment. In an emergency, call your local emergency number.
+    </div>
+
+</div>
+
+<script>
+window.addEventListener("pageshow", (e) => {
+    if (e.persisted) window.location.reload();
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+    // 1. Load User Health Summary (Existing)
+    loadHealthSummary();
+    
+    // 2. Load Timeline (Existing)
+    loadCoachTimeline();
+
+    // 3. NEW: Load Available Coaches
+    loadCoaches();
+});
+
+async function loadHealthSummary() {
+    const healthSummaryEl = document.getElementById("healthSummary");
+    const requestBtn = document.getElementById("requestConsultationBtn");
+    const riskBadge = document.getElementById("riskBadge");
+
+    function isScanFresh(timestamp, maxHours = 48) {
+        const t = new Date(timestamp).getTime();
+        return !isNaN(t) && (Date.now() - t) <= maxHours * 3600000;
+    }
+
+    try {
+        const res = await fetch("/api/last-health-summary");
+        const report = await res.json();
+
+        if (!report.exists) {
+            healthSummaryEl.innerHTML = `
+                <li style="text-align:center; padding:10px; color:#f43f5e;">
+                    ⚠️ No recent scan found.<br>
+                    <a href="/heart-rate" style="color:#3b82f6; text-decoration:none; font-weight:600;">Take a measurement</a> first.
+                </li>`;
+            requestBtn.disabled = true;
+            requestBtn.innerText = "Measurement Required";
+            riskBadge.innerText = "Scan Required";
+            riskBadge.style.color = "#ef4444";
+            riskBadge.style.background = "rgba(239, 68, 68, 0.15)";
+            return;
+        }
+
+        if (!isScanFresh(report.timestamp)) {
+            healthSummaryEl.innerHTML = `<li style="text-align:center; color:#f59e0b;">⚠️ Data is too old. Please scan again.</li>`;
+            requestBtn.disabled = true;
+            riskBadge.innerText = "Update Required";
+            return;
+        }
+
+        riskBadge.innerText = `${report.impactCategory} Risk Level`;
+        if(report.impactCategory === 'High') {
+            riskBadge.style.color = "#f43f5e";
+            riskBadge.style.borderColor = "#f43f5e";
+        } else {
+            riskBadge.style.color = "#10b981";
+            riskBadge.style.borderColor = "#10b981";
+        }
+
+        healthSummaryEl.innerHTML = `
+            <li style="padding: 12px; background:rgba(255,255,255,0.05); border-radius:12px; margin-bottom:8px;">
+                <div style="font-size:12px; color:#94a3b8;">Avg Heart Rate</div>
+                <div style="font-size:24px; font-weight:700; color:white;">${report.bpm} <span style="font-size:14px; font-weight:500;">BPM</span></div>
+            </li>
+            <li><strong>Insight:</strong> ${report.message}</li>
+            <li style="font-size:12px; margin-top:10px;">📅 ${new Date(report.timestamp).toLocaleString()}</li>
+        `;
+
+        requestBtn.disabled = false;
+
+    } catch (e) {
+        console.error(e);
+        healthSummaryEl.innerHTML = `<li>Error loading health data.</li>`;
+    }
+}
+
+// NEW: Function to load coaches from DB (via API)
+async function loadCoaches() {
+    const select = document.getElementById("coachSelect");
+
+    try {
+        const res = await fetch("/api/coaches");
+        const coaches = await res.json();
+
+        select.innerHTML = `<option value="" disabled selected>Select a Health Coach</option>`;
+
+        coaches.forEach(c => {
+            const opt = document.createElement("option");
+            opt.value = c.id;
+            opt.innerText = c.username; // 🔥 username from DB
+            select.appendChild(opt);
+        });
+
+    } catch (e) {
+        console.error(e);
+        select.innerHTML = `<option disabled>Error loading coaches</option>`;
+    }
+}
+
+
+async function loadCoachTimeline() {
+    try {
+        const res = await fetch("/api/telehealth/coach-timeline");
+        const timeline = await res.json();
+        const container = document.getElementById("coachTimeline");
+        
+        container.innerHTML = "";
+
+        if (!timeline.length) {
+            container.innerHTML = `<p style="text-align:center; color:#64748b; font-size:13px; padding:20px;">No responses from coach yet.</p>`;
+            return;
+        }
+
+        timeline.forEach((item, index) => {
+            const date = new Date(item.timestamp);
+            const isLatest = index === 0;
+            
+            const div = document.createElement("div");
+            div.className = `timeline-item ${isLatest ? 'latest' : ''}`;
+
+            div.innerHTML = `
+                <div class="coach-header">
+                    <div>
+                        <span class="coach-name">${item.coach_name}</span>
+                        <span class="coach-email">${item.coach_email}</span>
+                    </div>
+                    ${item.seen ? '<span class="seen-badge">Seen</span>' : ''}
+                </div>
+                
+                <div class="msg-body">${item.note}</div>
+                <div class="msg-time">${date.toLocaleDateString()} • ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+
+                ${!item.seen && isLatest ? `<button class="btn-small" onclick="markSeen(${item.id})">Mark Read</button>` : ''}
+            `;
+            container.appendChild(div);
+        });
+    } catch(e) {
+        console.log("Timeline error", e);
+    }
+}
+
+async function markSeen(noteId) {
+    await fetch("/api/telehealth/mark-seen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ note_id: noteId })
+    });
+    loadCoachTimeline(); 
+}
+
+// Handle Form Submit
+document.getElementById("requestConsultationBtn").addEventListener("click", async () => {
+    const coachId = document.getElementById("coachSelect").value;
+    const reason = document.getElementById("reason").value;
+    const notes = document.getElementById("notes").value;
+
+    if (!coachId) {
+        alert("Please select a health coach.");
+        return;
+    }
+
+    const res = await fetch("/api/telehealth/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            coach_id: coachId,
+            reason,
+            details: notes
+        })
+    });
+
+    if (res.ok) {
+        document.getElementById("consultFormCard").style.display = "none";
+        document.getElementById("successScreen").style.display = "block";
+    }
+});
+
+</script>
+<script>
+async function loadUserVitalsForCoach(userId) {
+    const card = document.getElementById("coachVitalsCard");
+    const content = document.getElementById("coachVitalsContent");
+
+    const res = await fetch(`/api/telehealth/user-snapshot/${userId}`);
+    const data = await res.json();
+
+    card.style.display = "block";
+
+    content.innerHTML = `
+        <strong>User:</strong> ${data.username}<br><br>
+
+        <strong>AVG BPM:</strong> ${data.heart_rate.avg}<br>
+        <strong>MAX BPM:</strong> ${data.heart_rate.max}<br>
+        <strong>MIN BPM:</strong> ${data.heart_rate.min}<br><br>
+
+        ${
+          data.stress
+          ? `<strong>Stress:</strong> ${data.stress.stress_level} (${data.stress.total_score})`
+          : `<span style="color:#94a3b8;">No stress data</span>`
+        }
+    `;
+
+    // Graph
+    const ctx = document.getElementById("coachVitalsChart");
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: data.heart_rate.history.map(h => h.time),
+            datasets: [{
+                data: data.heart_rate.history.map(h => h.bpm),
+                borderColor: "#f43f5e",
+                tension: 0.4
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: { x: { display:false } }
+        }
+    });
+}
+</script>
+
+</body>
+</html>

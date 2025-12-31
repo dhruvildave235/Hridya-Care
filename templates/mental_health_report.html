@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mental Health Report | HridyaCare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --bg-main: linear-gradient(180deg, #0b1220, #0a1328);
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.08);
+
+  --primary: #ff2d55;
+
+  --low: #22c55e;
+  --moderate: #facc15;
+  --high: #fb7185;
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+}
+
+
+* { box-sizing: border-box; font-family: Inter, system-ui; }
+
+html {
+  font-size: 15px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 28px 16px 90px;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+header {
+  margin-bottom: 28px;
+}
+header h1 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+header p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(14px);
+}
+
+
+.score {
+  font-size: 54px;
+  font-weight: 800;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.low { color: var(--low); }
+.moderate { color: var(--moderate); }
+.high { color: var(--high); }
+
+
+.metric {
+  margin-top: 18px;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+
+.bar {
+  height: 8px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(255,255,255,0.25);
+}
+
+
+ul {
+  padding-left: 0;
+  margin-top: 12px;
+}
+
+li {
+  list-style: none;
+  background: rgba(255,255,255,0.04);
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 16px;
+  border-radius: 999px;
+  font-size: 16px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: transparent;
+  color: white;
+  padding: 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--card-border);
+  font-size: 16px;
+  width: 100%;
+}
+
+
+.card button + button {
+  margin-top: 12px;
+}
+.btn-primary {
+  margin-bottom: 12px;
+}
+
+.metric-header span:last-child {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>Mental Health Report</h1>
+  <p>Based on your stress assessment (last 30 days)</p>
+</header>
+
+<div class="card" style="text-align:center;">
+  <h2 style="margin-bottom:6px;">Your Stress Score</h2>
+  <div class="score" id="scoreVal"></div>
+  <div id="levelVal" class="badge"></div>
+  <p style="color:var(--text-muted);font-size:13px;margin-top:6px;">
+    out of 40
+  </p>
+</div>
+
+
+<div class="card">
+  <h3>🧠 Interpretation</h3>
+  <p id="interp" style="color:var(--muted);font-size:14px;"></p>
+</div>
+
+<div class="card">
+  <h3>📊 Stress Breakdown</h3>
+
+  <div id="breakdown"></div>
+</div>
+
+<div class="card">
+  <h3>✅ Recommended Actions</h3>
+  <ul id="actions"></ul>
+</div>
+
+<div class="card">
+  <h3>🚀 Next Steps</h3>
+  <button class="btn-primary" onclick="window.location.href='/'">
+  Back to Dashboard
+</button>
+  <button class="btn-outline" onclick="window.location.href='/stress-check'">
+    Retake Stress Assessment
+  </button>
+</div>
+
+</div>
+
+<script>
+const score = Number(localStorage.getItem("STRESS_SCORE"));
+const level = localStorage.getItem("STRESS_LEVEL");
+
+const subs = {
+  emotional: Number(localStorage.getItem("STRESS_EMOTIONAL")),
+  control: Number(localStorage.getItem("STRESS_CONTROL")),
+  resilience: Number(localStorage.getItem("STRESS_RESILIENCE")),
+  cognitive: Number(localStorage.getItem("STRESS_COGNITIVE")),
+  anger: Number(localStorage.getItem("STRESS_ANGER"))
+};
+
+const scoreEl = document.getElementById("scoreVal");
+const levelEl = document.getElementById("levelVal");
+const interp = document.getElementById("interp");
+const actions = document.getElementById("actions");
+const breakdown = document.getElementById("breakdown");
+
+scoreEl.innerText = `${score}`;
+levelEl.innerText = level;
+
+if (level.includes("Low")) levelEl.className = "badge low";
+if (level.includes("Moderate")) levelEl.className = "badge moderate";
+if (level.includes("High")) levelEl.className = "badge high";
+
+interp.innerText =
+  level === "Low Stress" ?
+  "Your stress levels are well controlled. Continue maintaining healthy routines." :
+  level === "Moderate Stress" ?
+  "You are experiencing noticeable stress. Early lifestyle adjustments can help prevent burnout." :
+  "Your stress levels are high. Active intervention is strongly recommended.";
+
+actions.innerHTML =
+  level === "High Stress" ?
+  `<li>Reduce workload where possible</li><li>Practice daily relaxation</li><li>Consult a professional if needed</li>` :
+  `<li>Maintain sleep and hydration</li><li>Take short breaks during work</li><li>Stay physically active</li>`;
+
+const MAX = { emotional:12, control:12, resilience:16, cognitive:8, anger:8 };
+function getBarColor(metric, pct) {
+  if (metric === "resilience") {
+    if (pct < 0.35) return "#fb7185";
+    if (pct < 0.7)  return "#facc15";
+    return "#22c55e";
+  }
+
+  if (pct < 0.35) return "#22c55e";
+  if (pct < 0.7)  return "#facc15";
+  return "#fb7185";
+}
+
+
+Object.entries(subs).forEach(([k,v]) => {
+  const pct = v / MAX[k];
+  const color = getBarColor(k, pct);
+
+  breakdown.innerHTML += `
+    <div class="metric">
+      <div class="metric-header">
+        <span>${k.charAt(0).toUpperCase()+k.slice(1)}</span>
+        <span>${v}/${MAX[k]}</span>
+      </div>
+      <div class="bar">
+        <div class="fill"
+             style="width:${pct*100}%; background:${color};">
+        </div>
+      </div>
+    </div>`;
+});
+
+</script>
+
+</body>
+</html>

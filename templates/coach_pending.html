@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verification Pending • HridyaCare</title>
+
+<style>
+/* ===============================
+   VERIFICATION PENDING – NEW ENTRY
+   =============================== */
+
+:root {
+    --bg-main: radial-gradient(1000px 600px at 50% -200px, #16213e 0%, #0b1220 65%);
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.1);
+
+    --primary: #ff4d6d;
+    --primary-soft: rgba(255,77,109,0.18);
+
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+
+    --shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
+/* ---------- RESET ---------- */
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text-main);
+}
+
+/* ---------- CARD ---------- */
+.pending-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 22px;
+    padding: 30px 26px;
+    text-align: center;
+    backdrop-filter: blur(14px);
+    box-shadow: var(--shadow);
+    animation: slideFade 0.45s ease;
+}
+
+/* ---------- ICON ---------- */
+.pending-icon {
+    width: 74px;
+    height: 74px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: var(--primary-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+}
+
+/* ---------- TITLE ---------- */
+.pending-card h2 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* ---------- TEXT ---------- */
+.pending-card p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ---------- INFO BOX ---------- */
+.info-box {
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.15);
+    font-size: 14px;
+    color: #cbd5f5;
+}
+
+/* ---------- NOTE ---------- */
+.note {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #a5b4fc;
+}
+
+/* ---------- LOGOUT BUTTON ---------- */
+.pending-card form {
+    margin: 0;
+}
+
+.pending-card .btn {
+    margin-top: 22px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.pending-card .btn:hover {
+    opacity: 0.9;
+}
+
+/* ---------- ANIMATION ---------- */
+@keyframes slideFade {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 420px) {
+    .pending-card {
+        padding: 24px 20px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="pending-card">
+
+    <div class="pending-icon">⏳</div>
+
+    <h2>Verification in Progress</h2>
+
+    <p>
+        Your <b>Health Coach</b> account has been created successfully.
+        <br><br>
+        Our admin team is currently reviewing your
+        <b>qualification details and uploaded certificate</b>.
+    </p>
+
+    <div class="info-box">
+        ⏱️ This usually takes a short time.<br>
+        You will get access immediately after approval.
+    </div>
+
+    <div class="note">
+        You can safely logout and come back later.
+    </div>
+
+<form method="POST" action="{{ url_for('logout') }}">
+    <button type="submit" class="btn">Logout</button>
+</form>
+
+
+
+</div>
+
+</body>
+</html>

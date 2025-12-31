@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HridyaCare | Eye Health Screening</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --primary-dim: rgba(255, 77, 109, 0.2);
+            --bg-dark: #0b1220;
+            --bg-glass: rgba(30, 41, 59, 0.6);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #ef4444;
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000;
+            font-family: var(--font-stack);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            background-color: var(--bg-dark);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        header {
+            background: rgba(11, 18, 32, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-glass);
+            z-index: 100;
+            position: sticky;
+            top: 0;
+        }
+
+        .header-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), #e11d48);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px var(--primary-dim);
+        }
+
+        .header-text h1 {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-text p {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stepper {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 0;
+            background: var(--bg-dark);
+        }
+
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            background: #334155;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-dot.active {
+            width: 24px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary-dim);
+        }
+
+        #main-content {
+            flex: 1;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        .screen {
+            position: absolute;
+            top: 45%;
+            left: 0;
+            width: 100%;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: all;
+            z-index: 10;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+            color: #fff;
+        }
+
+        p.instruction {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 18px;
+            max-width: 300px;
+        }
+
+        .hero-icon {
+            font-size: 56px;
+            margin: 18px 0 14px;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), #e11d48);
+            color: #fff;
+            border: none;
+            padding: 16px 0;
+            width: 100%;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--primary-dim);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px var(--primary-dim);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            box-shadow: none;
+            margin-top: 12px;
+        }
+
+        .snellen-card {
+            background: #ffffff;
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #snellen-e {
+            font-family: sans-serif;
+            font-weight: 900;
+            color: #000;
+            line-height: 1;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), font-size 0.3s ease, opacity 0.3s ease;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .control-btn {
+            aspect-ratio: 1;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            color: var(--text-main);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
+        }
+
+        .control-btn:active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .control-btn.placeholder {
+            visibility: hidden;
+        }
+
+        .step-pill {
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            border: 1px solid var(--border-glass);
+        }
+
+        canvas {
+            background: #fff;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        .amsler-canvas {
+            background: #ffffff;
+        }
+
+        .glass-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .badge.good { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .badge.bad { background: rgba(239, 68, 68, 0.2); color: var(--warning); }
+
+        .divider {
+            height: 1px;
+            background: var(--border-glass);
+            margin: 16px 0;
+        }
+
+        .disclaimer {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 18, 32, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #64748b;
+            font-size: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--success);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .screen > * {
+            margin-bottom: 14px;
+        }
+
+        .screen > .btn {
+            margin-bottom: 0;
+        }
+
+        .btnt {
+            background: transparent;
+            color: #fff;
+            border: none;
+            padding: 16px 0;
+            width: 100%;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--primary-dim);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <header>
+            <div class="header-icon">👁️</div>
+            <div class="header-text">
+                <h1>Visual Eye Health</h1>
+                <p>HridyaCare Screening</p>
+            </div>
+        </header>
+
+        <div class="stepper" id="stepper">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+        </div>
+
+        <div id="main-content">
+            
+            <div class="screen active" id="screen-brightness">
+                <div class="hero-icon">☀️</div>
+                <h2>Check Brightness</h2>
+                <p class="instruction">For the most accurate results, please set your screen brightness to 100% and disable any "Night Mode" or blue light filters.</p>
+                <button class="btn" onclick="nextScreen()">I'm Ready</button>
+            </div>
+
+            <div class="screen" id="screen-glasses">
+                <div class="hero-icon">👓</div>
+                <h2>Do you wear glasses?</h2>
+                <p class="instruction">If you wear prescription glasses or contact lenses for distance vision, please keep them ON during the test.</p>
+                <button class="btn" onclick="nextScreen()">Next</button>
+            </div>
+
+            <div class="screen" id="screen-distance">
+                <div class="hero-icon">📏</div>
+                <h2>Set Distance</h2>
+                <p class="instruction">Hold your phone approximately 40–50 cm (about an arm's length) away from your eyes.</p>
+                <button class="btn" onclick="nextScreen()">I'm in position</button>
+            </div>
+
+            <div class="screen" id="screen-cover-right">
+                <div class="hero-icon">🫣</div>
+                <h2>Left Eye Test</h2>
+                <p class="instruction">Cover your <strong>RIGHT</strong> eye with your hand, but keep both eyes open. Do not press on the eyelid.</p>
+                <button class="btn" onclick="startAcuityTest('left')">Start Left Eye Test</button>
+            </div>
+
+            <div class="screen" id="screen-acuity">
+                <div class="step-pill" id="acuity-step-indicator">Step 1/5</div>
+                
+                <div class="snellen-card">
+                    <div id="snellen-e">E</div>
+                </div>
+
+                <p class="instruction" style="margin-bottom: 20px;">Which way is the E facing?</p>
+
+                <div class="controls-grid">
+                    <div class="control-btn placeholder"></div>
+                    <div class="control-btn" onclick="handleInput('up')">▲</div>
+                    <div class="control-btn placeholder"></div>
+                    
+                    <div class="control-btn" onclick="handleInput('left')">◀</div>
+                    <div class="control-btn placeholder"></div>
+                    <div class="control-btn" onclick="handleInput('right')">▶</div>
+                    
+                    <div class="control-btn placeholder"></div>
+                    <div class="control-btn" onclick="handleInput('down')">▼</div>
+                    <div class="control-btn placeholder"></div>
+                </div>
+            </div>
+
+            <div class="screen" id="screen-cover-left">
+                <div class="hero-icon">🫣</div>
+                <h2>Right Eye Test</h2>
+                <p class="instruction">Great job! Now cover your <strong>LEFT</strong> eye with your hand.</p>
+                <button class="btn" onclick="startAcuityTest('right')">Start Right Eye Test</button>
+            </div>
+
+            <div class="screen" id="screen-astigmatism">
+                <h2>Astigmatism Check</h2>
+                <p class="instruction">Look at the center of the circle. Do any lines appear darker, bolder, or blurrier than others?</p>
+                
+                <canvas id="canvas-astigmatism" width="280" height="280"></canvas>
+                
+                <button class="btn" onclick="recordAstigmatism(false)">All lines look the same</button>
+                <button class="btn btn-secondary" onclick="recordAstigmatism(true)">Some look darker/blurry</button>
+            </div>
+
+            <div class="screen" id="screen-amsler">
+                <h2>Visual Field</h2>
+                <p class="instruction">Stare at the center dot. Do the grid lines look straight, or are some wavy, missing, or distorted?</p>
+                
+                <canvas id="canvas-amsler" width="280" height="280" class="amsler-canvas"></canvas>
+                
+                <button class="btn" onclick="recordAmsler(false)">Yes, perfectly straight</button>
+                <button class="btn btn-secondary" onclick="recordAmsler(true)">No, some are wavy/missing</button>
+            </div>
+
+            <div class="screen" id="screen-results">
+                <h2>Your Results</h2>
+                <p class="instruction" style="margin-bottom: 20px">Based on your screening session.</p>
+                
+                <div class="glass-card" id="results-card-content">
+                    </div>
+<button class="btn btn-secondary" onclick="location.reload()">Retake Test</button>
+                <button class="btn" onclick="location.reload()">Back to Dashboard</button>
+               
+                <p class="disclaimer">This is a simulation for screening purposes only. Please consult a certified ophthalmologist for a comprehensive clinical examination.</p>
+            </div>
+
+        </div>
+
+        <nav class="bottom-nav">
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>Home</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                <span>Tracker</span>
+            </div>
+            <div class="nav-item active">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span>Health</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <span>Me</span>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // --- STATE MANAGEMENT ---
+        const state = {
+            stepIndex: 0,
+            currentEye: 'left', // 'left' or 'right'
+            acuityLevel: 0,
+            acuityMaxLevels: 5,
+            scores: { left: 0, right: 0 },
+            astigmatismIssue: false,
+            amslerIssue: false,
+            currentRotation: 0 // 0, 90, 180, 270
+        };
+
+        // --- DOM ELEMENTS ---
+        const screens = [
+            document.getElementById('screen-brightness'),
+            document.getElementById('screen-glasses'),
+            document.getElementById('screen-distance'),
+            document.getElementById('screen-cover-right'),
+            document.getElementById('screen-acuity'), // Used for left
+            document.getElementById('screen-cover-left'),
+            document.getElementById('screen-acuity'), // Used for right (reused)
+            document.getElementById('screen-astigmatism'),
+            document.getElementById('screen-amsler'),
+            document.getElementById('screen-results')
+        ];
+        
+        const stepperDots = document.querySelectorAll('.step-dot');
+        const snellenE = document.getElementById('snellen-e');
+        const stepIndicator = document.getElementById('acuity-step-indicator');
+
+        // --- NAVIGATION LOGIC ---
+        function nextScreen() {
+            // Hide current
+            const currentScreen = document.querySelector('.screen.active');
+            currentScreen.classList.remove('active');
+
+            // Logic to skip reused screens in the array flow
+            state.stepIndex++;
+            
+            // Show next
+            if (state.stepIndex < screens.length) {
+                screens[state.stepIndex].classList.add('active');
+                updateStepper();
+                
+                // Trigger canvas drawing if needed
+                if (screens[state.stepIndex].id === 'screen-astigmatism') drawAstigmatism();
+                if (screens[state.stepIndex].id === 'screen-amsler') drawAmsler();
+            }
+        }
+
+        function updateStepper() {
+            // Map screen index to 4 dots roughly
+            let dotIndex = 0;
+            if (state.stepIndex < 3) dotIndex = 0; // Setup
+            else if (state.stepIndex < 6) dotIndex = 1; // Left Eye
+            else if (state.stepIndex < 8) dotIndex = 2; // Right Eye
+            else dotIndex = 3; // Other Tests
+
+            stepperDots.forEach((dot, idx) => {
+                if (idx === dotIndex) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
+
+        // --- ACUITY TEST LOGIC ---
+        function startAcuityTest(eye) {
+            state.currentEye = eye;
+            state.acuityLevel = 0;
+            
+            // Reset score for this eye if restarting (though flow is linear)
+            if (state.acuityLevel === 0) state.scores[eye] = 0;
+
+            // Transition to acuity screen
+            nextScreen();
+            
+            // Small delay to allow fade-in
+            setTimeout(generateChallenge, 100);
+        }
+
+        function generateChallenge() {
+            if (state.acuityLevel >= state.acuityMaxLevels) {
+                finishAcuityRound();
+                return;
+            }
+
+            // Update text
+            stepIndicator.textContent = `${state.currentEye === 'left' ? 'Left' : 'Right'} Eye: Step ${state.acuityLevel + 1}/${state.acuityMaxLevels}`;
+
+            // 1. Determine Size (px) - reducing
+            const sizes = [120, 90, 60, 40, 20];
+            const currentSize = sizes[state.acuityLevel];
+            
+            // 2. Determine Rotation
+            const rotations = [0, 90, 180, 270];
+            const randomIndex = Math.floor(Math.random() * rotations.length);
+            state.currentRotation = rotations[randomIndex];
+
+            // 3. Apply styles with animation
+            snellenE.style.opacity = '0'; // Fade out
+            
+            setTimeout(() => {
+                snellenE.style.fontSize = `${currentSize}px`;
+                snellenE.style.transform = `rotate(${state.currentRotation}deg)`;
+                snellenE.style.opacity = '1'; // Fade in
+            }, 150);
+        }
+
+        function handleInput(direction) {
+            let correctDeg = state.currentRotation;
+            let inputDeg = -1;
+
+            if (direction === 'right') inputDeg = 0;
+            if (direction === 'down') inputDeg = 90;
+            if (direction === 'left') inputDeg = 180;
+            if (direction === 'up') inputDeg = 270;
+
+            // Check correctness
+            if (inputDeg === correctDeg) {
+                state.scores[state.currentEye]++;
+            }
+
+            // Move to next level
+            state.acuityLevel++;
+            generateChallenge();
+        }
+
+        function finishAcuityRound() {
+            // Move to next logical screen
+            nextScreen(); 
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (!document.querySelector('#screen-acuity').classList.contains('active')) return;
+            
+            if (e.key === 'ArrowUp') handleInput('up');
+            else if (e.key === 'ArrowDown') handleInput('down');
+            else if (e.key === 'ArrowLeft') handleInput('left');
+            else if (e.key === 'ArrowRight') handleInput('right');
+        });
+
+        // --- OTHER TESTS ---
+        function recordAstigmatism(hasIssue) {
+            state.astigmatismIssue = hasIssue;
+            nextScreen();
+        }
+
+        function recordAmsler(hasIssue) {
+            state.amslerIssue = hasIssue;
+            calculateResults();
+            nextScreen();
+        }
+
+        // --- CANVAS DRAWING ---
+        function drawAstigmatism() {
+            const canvas = document.getElementById('canvas-astigmatism');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w/2;
+            const cy = h/2;
+
+            ctx.clearRect(0, 0, w, h);
+            ctx.beginPath();
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+
+            // Draw radial lines
+            for (let i = 0; i < 360; i += 10) {
+                const rad = i * (Math.PI / 180);
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(rad) * (w/2 - 10), cy + Math.sin(rad) * (h/2 - 10));
+            }
+            ctx.stroke();
+
+            // Clear center for cleanliness
+            ctx.beginPath();
+            ctx.arc(cx, cy, 20, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+        }
+
+        function drawAmsler() {
+            const canvas = document.getElementById('canvas-amsler');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const step = w / 14;
+
+            ctx.clearRect(0, 0, w, h);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+
+            // Grid
+            for (let x = 0; x <= w; x += step) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+            }
+            for (let y = 0; y <= h; y += step) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+            }
+            ctx.stroke();
+
+            // Center Dot
+            ctx.beginPath();
+            ctx.arc(w/2, h/2, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#000';
+            ctx.fill();
+        }
+
+        // --- RESULTS LOGIC ---
+        function calculateResults() {
+            const leftPct = (state.scores.left / 5) * 100;
+            const rightPct = (state.scores.right / 5) * 100;
+            
+            const getBadge = (pct) => {
+                if (pct >= 70) return `<span class="badge good">Good</span>`;
+                return `<span class="badge bad">Needs Attention</span>`;
+            }
+
+            const getHealthText = (val) => val ? `<span style="color:var(--warning)">Possible Issue</span>` : `<span style="color:var(--success)">Normal</span>`;
+
+            const html = `
+                <div class="result-row">
+                    <span class="result-label">Left Eye Acuity</span>
+                    <div style="text-align:right">
+                        <div class="result-value">${leftPct}%</div>
+                        ${getBadge(leftPct)}
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="result-row">
+                    <span class="result-label">Right Eye Acuity</span>
+                    <div style="text-align:right">
+                        <div class="result-value">${rightPct}%</div>
+                        ${getBadge(rightPct)}
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <h3 style="font-size:14px; color:white; margin-bottom:10px;">Additional Checks</h3>
+                
+                <div class="result-row">
+                    <span class="result-label">Astigmatism</span>
+                    <span>${getHealthText(state.astigmatismIssue)}</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Visual Field</span>
+                    <span>${getHealthText(state.amslerIssue)}</span>
+                </div>
+            `;
+
+            document.getElementById('results-card-content').innerHTML = html;
+        }
+
+        // Prevent double tap zoom
+        document.addEventListener('dblclick', function(event) {
+            event.preventDefault();
+        }, { passive: false });
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Topics | HridyaCare</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root { --bg: #0f172a; --card: #1e293b; --text: #fff; --muted: #94a3b8; --accent: #3b82f6; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; padding: 20px; padding-bottom: 90px; }
+    
+    .header { display:flex; align-items:center; gap:15px; margin-bottom: 20px; }
+    .back { text-decoration:none; color:var(--text); font-size:24px; }
+    h2 { margin:0; font-size:20px; }
+
+    /* Search Bar */
+    .search-box {
+        background: var(--card); border: 1px solid #334155; border-radius: 12px;
+        padding: 12px; display: flex; align-items: center; margin-bottom: 25px;
+    }
+    .search-box input {
+        background: transparent; border: none; color: white; font-size: 14px; width: 100%; outline: none; margin-left: 10px;
+    }
+
+    /* Section Title */
+    .section-label { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+
+    /* Grid Layout */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+
+    /* Topic Card Style (Matches your Health.html) */
+    .topic-card {
+        position: relative; height: 120px; border-radius: 16px; overflow: hidden;
+        background-color: #1f2937; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer;
+    }
+    .topic-card img {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6;
+    }
+    .topic-card .content {
+        position: relative; z-index: 2; padding: 12px; height: 100%;
+        display: flex; flex-direction: column; justify-content: flex-end;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    }
+    .topic-card h3 { margin: 0; color: white; font-size: 14px; font-weight: bold; }
+    .topic-card p { margin: 2px 0 0 0; color: #cbd5e1; font-size: 11px; }
+
+    /* Category Chips */
+    .chips { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip { background: var(--card); padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; color: var(--muted); border: 1px solid #334155; }
+    .chip.active { background: var(--accent); color: white; border-color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <a href="/health" class="back">←</a>
+    <h2>Health Topics</h2>
+</div>
+
+<div class="search-box">
+    <span>🔍</span>
+    <input type="text" placeholder="Search conditions, vitals...">
+</div>
+
+<div class="chips">
+    <div class="chip active">All</div>
+    <div class="chip">Heart</div>
+    <div class="chip">Lungs</div>
+    <div class="chip">Sleep</div>
+    <div class="chip">Metabolism</div>
+</div>
+
+<div class="section-label">Cardiac Health</div>
+<div class="grid">
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1486218119243-13883505764c?w=400" alt="HR">
+        <div class="content"><h3>Heart Rate</h3><p>View Data</p></div>
+    </div>
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400" alt="Disease">
+        <div class="content"><h3>Heart Disease</h3><p>Risk Factors</p></div>
+    </div>
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400" alt="BP">
+        <div class="content"><h3>Blood Pressure</h3><p>Hypertension</p></div>
+    </div>
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400" alt="Cholesterol">
+        <div class="content"><h3>Cholesterol</h3><p>Lipid Profile</p></div>
+    </div>
+</div>
+
+<div class="section-label">General Wellness</div>
+<div class="grid">
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400" alt="Stress">
+        <div class="content"><h3>Stress Level</h3><p>Management</p></div>
+    </div>
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1541781777621-af1394378813?w=400" alt="Sleep">
+        <div class="content"><h3>Sleep Quality</h3><p>Circadian Rhythm</p></div>
+    </div>
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400" alt="Weight">
+        <div class="content"><h3>Weight</h3><p>Body Composition</p></div>
+    </div>
+    <div class="topic-card">
+        <img src="https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400" alt="Activity">
+        <div class="content"><h3>Activity</h3><p>Steps & Move</p></div>
+    </div>
+</div>
+
+</body>
+</html>

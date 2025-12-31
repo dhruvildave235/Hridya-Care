@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omega-3 Rich Diet | HridyaCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #fff;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6; /* Blue for Omega-3/Ocean theme */
+        }
+
+        body { 
+            background: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 80px; /* Space for bottom nav if needed */
+        }
+
+        /* Hero Section with Gradient Overlay */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, #0f172a 0%, transparent 80%);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Navigation */
+        .nav-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn { 
+            text-decoration: none; 
+            color: var(--text-muted); 
+            font-size: 16px; 
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: var(--text-main); }
+        .back-btn span { font-size: 20px; margin-right: 6px; }
+
+        /* Content Sections */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        p { margin: 0; color: var(--text-muted); font-size: 15px; }
+
+        /* Food List Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .food-item {
+            background: rgba(51, 65, 85, 0.5);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .food-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+        .food-name { font-weight: 600; font-size: 14px; display: block; }
+        .food-detail { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block; }
+
+        /* "Did You Know" Callout */
+        .highlight-box {
+            background: linear-gradient(135deg, #1e3a8a, #172554);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        .highlight-icon { font-size: 24px; }
+        .highlight-text h4 { margin: 0 0 6px 0; font-size: 16px; color: #60a5fa; }
+        .highlight-text p { color: #dbeafe; font-size: 14px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-header">
+        <a href="/health" class="back-btn"><span>←</span> Back to Health</a>
+    </div>
+
+    <div class="hero-container">
+        <img src="https://images.unsplash.com/photo-1499125562588-29fb8a56b5d5?w=800&q=80" class="hero-img" alt="Salmon Dish">
+        <div class="hero-overlay">
+            <h1 class="hero-title">Omega-3 Rich Diet</h1>
+        </div>
+    </div>
+
+    <div class="info-card">
+        <p>Omega-3 fatty acids are essential fats that your body cannot make on its own. They are powerful allies for your heart, known to lower triglycerides, reduce blood pressure slightly, and curb inflammation in blood vessels.</p>
+    </div>
+
+    <h3 class="section-title">🐟 Top Power Foods</h3>
+    <div class="food-grid">
+        <div class="food-item">
+            <span class="food-icon">🍣</span>
+            <span class="food-name">Fatty Fish</span>
+            <span class="food-detail">Salmon, Mackerel</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🌰</span>
+            <span class="food-name">Walnuts</span>
+            <span class="food-detail">Great snack option</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🌱</span>
+            <span class="food-name">Chia Seeds</span>
+            <span class="food-detail">Add to smoothies</span>
+        </div>
+        <div class="food-item">
+            <span class="food-icon">🥑</span>
+            <span class="food-name">Avocado</span>
+            <span class="food-detail">Healthy fats</span>
+        </div>
+    </div>
+
+    <div class="highlight-box">
+        <div class="highlight-icon">💡</div>
+        <div class="highlight-text">
+            <h4>Quick Tip</h4>
+            <p>Try to eat fatty fish at least twice a week. If you are vegetarian, consider an algae-based supplement to get your DHA and EPA.</p>
+        </div>
+    </div>
+
+    <h3 class="section-title">🍳 Simple Breakfast Idea</h3>
+    <div class="info-card">
+        <strong style="color:white; display:block; margin-bottom:8px;">Omega Oatmeal Bowl</strong>
+        <p>Mix 1 tablespoon of ground flaxseeds and a handful of walnuts into your morning oatmeal. Top with berries for added antioxidants.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
