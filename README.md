@@ -160,10 +160,10 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
 ### 🔌 APIs Used
 
 - **Air Quality Data (AQI & Pollutants)**  
-  - **:contentReference[oaicite:0]{index=0} (AQICN / WAQI) API**
+  - (AQICN / WAQI) API
   - Uses the official **`AQICN_API_TOKEN`** for authenticated access
   - Fetches **real-time city AQI and pollutant data** using geographic coordinates
-  - **Trusted globally**; for India, AQI data is sourced from **:contentReference[oaicite:1]{index=1} (CPCB) government monitoring stations**
+  - **Trusted globally**; for India, AQI data is sourced from "(CPCB) government monitoring stations**
   - Enables correlation of **air pollution levels with heart rate and cardiovascular stress**
 
 ---
