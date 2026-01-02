@@ -1,7 +1,7 @@
 # ❤️ HridyaCare  
 **Smart, Accessible & Context-Aware Digital Health Monitoring**
 
-HridyaCare is a browser-based digital health platform designed to make **heart health, stress, lifestyle, and environmental health monitoring accessible to everyone** — using just a smartphone and the web.  
+HridyaCare is a browser-based digital health platform designed to make **heart health, stress, lifestyle, and environmental health monitoring accessible to everyone**, using just a smartphone and the web.  
 No wearables. No subscriptions. No hospital visits for basic screening.
 
 ---
@@ -190,10 +190,14 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
 
 ## 📌 Future Scope
 
-- Long-term trend prediction
-- Personalized alerts
-- Integration with public health systems
-- Expanded environmental health indicators
+- **Long-term trend prediction** for proactive cardiovascular risk awareness  
+- **Personalized alerts** based on health trends and environmental exposure  
+- **Integration with public health systems** to support population-level insights  
+- **Expanded environmental health indicators** (pollution, heat, lifestyle factors)
+
+- Currently, **there is no unified government platform** that continuously links daily heart health with real-time environmental data  
+- Existing public health data collection for **elderly populations is often infrequent (e.g., periodic checkups every few months)** and largely **reactive**, with limited follow-up or actionable feedback  
+- HridyaCare aims to **bridge this gap** by enabling **continuous, at-home monitoring**, early insights, and timely guidance—before issues escalate
 
 ---
 
