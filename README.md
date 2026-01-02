@@ -33,12 +33,21 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
 ## 🧠 Core Features
 
 ### ❤️ Heart Rate Monitoring
-- Real-time heart rate measurement using smartphone camera
+- Real-time heart rate measurement using smartphone camera (rPPG-based)
 - No wearables required
 - Achieved accuracy:
   - **Best case:** ±4 BPM  
   - **Worst case:** ±8 BPM
-- Displays trends instead of isolated numbers
+- Stores the **last 7 heart rate measurements** for short-term tracking
+- Displays **clear trends** showing whether heart rate is **upward, downward, or steady**
+- Focuses on **trends rather than isolated readings** for better insight
+- Provides **context-aware guidance**:
+  - **Upward trend:** rest, hydrate, breathing exercises, reduce pollution exposure  
+  - **Downward trend:** recovery and normalization  
+  - **Steady trend:** stable condition, maintain habits
+- **Uniquely integrates real-time city AQI** to show how air pollution affects heart rate
+- Allows users to **instantly consult a verified health coach** for expert support
+- Designed after **reviewing and validating insights from multiple peer-reviewed research papers**
 
 ---
 
@@ -48,7 +57,7 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
   - AQI
   - PM2.5
   - PM10
-- Explains how air quality can influence heart strain and stress levels
+- Explains how air quality can influence heart rate
 - Converts environmental data into **health impact insights**
 
 ---
@@ -61,20 +70,23 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
   - Perceived unpredictability
   - Lack of control
   - Mental overload
-- Simple 10-question assessment
-- Produces an easy-to-understand stress score
+- Simple **10-question assessment**
+- Generates an **easy-to-understand stress score**
+- **Unique feature:** categorizes results into **5 distinct stress levels**, each paired with **clear, practical solutions**
+- Visualizes stress dimensions through a **radar chart**, making stress patterns easy to understand at a glance
 
 ---
 
 ### 🧬 Lifestyle Analysis
-- Based on **WHO (World Health Organization) lifestyle matrices**
-- Evaluates:
-  - Physical activity
-  - Sleep patterns
-  - Daily habits
-  - Sedentary behavior
-- Highlights weak areas visually
-- Converts lifestyle data into health recommendations
+- Built on **World Health Organization (WHO) lifestyle assessment matrices**
+- Uses **WHO-defined benchmarks and risk thresholds** to ensure medically reliable evaluation
+- Analyzes:
+  - Physical activity levels  
+  - Sleep quality & duration  
+  - Daily lifestyle habits  
+  - Sedentary behavior patterns  
+- **Visually flags weak lifestyle areas** for instant understanding
+- Transforms lifestyle inputs into **clear, actionable health recommendations**
 
 ---
 
@@ -96,9 +108,10 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
 - Access to **verified health coaches**
 - Coaches can:
   - View user reports (with consent)
-  - Analyze trends
-  - Provide guidance remotely
-- Admin verifies coach credentials before approval
+  - Analyze health trends
+  - Provide personalized guidance remotely
+- **Admin verifies coach credentials** before approval to ensure trust and safety
+- Especially helpful for **elderly and higher-aged users**, enabling professional support for **basic wellness without hospital visits**
 
 ---
 
@@ -144,8 +157,14 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
 ### Database
 - PostgreSQL
 
-### External APIs
-- OpenWeatherMap (AQI & pollution data)
+### 🔌 APIs Used
+
+- **Air Quality Data (AQI & Pollutants)**  
+  - **:contentReference[oaicite:0]{index=0} (AQICN / WAQI) API**
+  - Uses the official **`AQICN_API_TOKEN`** for authenticated access
+  - Fetches **real-time city AQI and pollutant data** using geographic coordinates
+  - **Trusted globally**; for India, AQI data is sourced from **:contentReference[oaicite:1]{index=1} (CPCB) government monitoring stations**
+  - Enables correlation of **air pollution levels with heart rate and cardiovascular stress**
 
 ---
 
@@ -173,7 +192,6 @@ HridyaCare bridges this gap by combining **real-time physiological signals, life
 
 - Long-term trend prediction
 - Personalized alerts
-- Deeper AI-driven correlations
 - Integration with public health systems
 - Expanded environmental health indicators
 
