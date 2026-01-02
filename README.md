@@ -4,6 +4,11 @@
 HridyaCare is a browser-based digital health platform designed to make **heart health, stress, lifestyle, and environmental health monitoring accessible to everyone**, using just a smartphone and the web.  
 No wearables. No subscriptions. No hospital visits for basic screening.
 
+> ⚠️ **Device Recommendation**  
+> Heart rate monitoring in HridyaCare relies on the **smartphone camera and flash (rPPG technique)**.  
+> Since most laptops and desktops do **not support continuous camera flash**, this feature is **fully supported only on mobile devices**.  
+> For the best and most accurate experience, users are **strongly advised to access HridyaCare on a smartphone**.
+
 ---
 
 ## 🌍 Problem Statement
