@@ -4,6 +4,13 @@ import uuid
 from datetime import datetime
 
 from dotenv import load_dotenv
+load_dotenv()
+
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+
+
+from dotenv import load_dotenv
 load_dotenv()  # MUST be before using env vars
 
 # Flask & Extensions
@@ -374,7 +381,6 @@ def telehealth_user_snapshot(user_id):
     conn = get_db_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
-    # 🔐 Verify coach
     cur.execute("SELECT role FROM users WHERE id=%s", (session["user_id"],))
     role = cur.fetchone()
     if not role or role["role"] != "coach":
@@ -427,18 +433,14 @@ def telehealth_user_snapshot(user_id):
 
 @app.route('/all-topics')
 def all_topics():
-    # Make sure 'all-topics.html' is in your templates folder or root
     return render_template('all-topics.html') 
 
-# Updated Route for "Explore" (All Articles)
 @app.route('/all-articles')
 def all_articles():
-    # Make sure 'all-articles.html' is in your templates folder or root
     return render_template('all-articles.html')   
 
 @app.route('/how_to_use_heart_rate.html')
 def help_page():
-    # Ensure the HTML file is inside your 'templates' folder
     return render_template('how_to_use_heart_rate.html')
 
 # Route for Low-Salt Diet Page
@@ -470,21 +472,18 @@ def article_diet():
         return redirect(url_for('login'))
     return render_template('article_diet.html')
 
-# New Route for Heart Disease Article
 @app.route('/article/heart-disease')
 def article_heart_disease():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     return render_template('article_heart_disease.html')
 
-# 1. Route for the specific Stress Article Template
 @app.route('/article/stress-connection')
 def stress_article_page():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     return render_template('article_stress.html')
 
-# 2. Route for the Heart Health Hub (Linked from the tile)
 @app.route('/heart-health')
 def heart_health_hub():
     if 'user_id' not in session:
@@ -826,7 +825,6 @@ def update_profile():
 
     user = db.session.get(User, session['user_id'])
 
-    # SAFE: do not access attribute before set
     if gender in ['Male', 'Female', 'Other', 'NA']:
         user.gender = gender
         db.session.commit()
@@ -945,7 +943,6 @@ def calculate_us_aqi(pm25):
     except (ValueError, TypeError):
         return None
 
-# ---------------- AQI BACKEND API (SECURE & FIXED) ----------------
 @csrf.exempt
 @app.route("/api/aqi")
 def get_aqi():
@@ -1149,7 +1146,6 @@ def generate_pdf():
 
     c.setFont("Helvetica-Bold", 14)
 
-    #  CHECK SPACE BEFORE TITLE
     if y < BOTTOM_MARGIN + 120:
         c.showPage()
         y = height - 60
@@ -1190,7 +1186,6 @@ def generate_pdf():
 
     _, aqi_height = aqi_table.wrap(CONTENT_WIDTH, height)
     
-    #  CHECK SPACE BEFORE TABLE
     if y - aqi_height < BOTTOM_MARGIN:
         c.showPage()
         y = height - 60
@@ -1252,7 +1247,6 @@ def register():
         email = request.form["email"].strip().lower()
         password = (request.form.get("password") or "").strip()
         confirm_password = (request.form.get("confirm_password") or "").strip()
-        # 🔍 DEBUG (ADD HERE)
         print("PASSWORD:", repr(password))
         print("CONFIRM:", repr(confirm_password))
         role = request.form.get("role", "user")
@@ -1728,7 +1722,7 @@ def diet_recommendation(bpm):
     
 @app.route("/api/diet")
 def api_diet():
-    bpm = int(request.args.get("bpm", 72))  # replace with real data later
+    bpm = int(request.args.get("bpm", 72)) 
     return {
         "bpm": bpm,
         "recommendation": diet_recommendation(bpm)
