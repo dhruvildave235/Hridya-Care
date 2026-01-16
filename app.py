@@ -1,18 +1,12 @@
-import matplotlib
-matplotlib.use("Agg") 
-import matplotlib.pyplot as plt
-from werkzeug.utils import secure_filename
-from flask import send_file
-from flask_wtf.csrf import CSRFProtect
+# Core & Environment
 import os
+import uuid
+from datetime import datetime
+
 from dotenv import load_dotenv
+load_dotenv()  # MUST be before using env vars
 
-load_dotenv()  # ← MUST BE FIRST
-from reportlab.platypus import Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-
-from functools import wraps
-
+# Flask & Extensions
 from flask import (
     Flask,
     render_template,
@@ -21,24 +15,39 @@ from flask import (
     url_for,
     flash,
     session,
-    jsonify
+    jsonify,
+    send_file
 )
-
 from flask_sqlalchemy import SQLAlchemy
-from db import get_db_connection
-
+from flask_wtf.csrf import CSRFProtect
+from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Database
+from db import get_db_connection
+
+# Utilities
+from functools import wraps
+import pytz
+import requests
+
+# Visualization
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+# PDF Generation
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
 from reportlab.lib import colors
-from reportlab.platypus import Table, TableStyle
+from reportlab.platypus import (
+    Paragraph,
+    Table,
+    TableStyle
+)
+from reportlab.lib.styles import getSampleStyleSheet
 
-import uuid
-import requests
-from datetime import datetime
-import pytz
 
 ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg"}
 
@@ -1819,3 +1828,4 @@ def api_physical_health():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
