@@ -9,10 +9,6 @@ load_dotenv()
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
-
-from dotenv import load_dotenv
-load_dotenv()  # MUST be before using env vars
-
 # Flask & Extensions
 from flask import (
     Flask,
@@ -83,10 +79,19 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
+
 if not app.config["SECRET_KEY"]:
     raise RuntimeError("SECRET_KEY is missing. Set it in .env")
 
 csrf = CSRFProtect(app)
+
+#  Security Headers (GLOBAL)
+@app.after_request
+def set_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin"
+    return response
 
 from flask_wtf.csrf import CSRFError
 
@@ -1822,4 +1827,5 @@ def api_physical_health():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
